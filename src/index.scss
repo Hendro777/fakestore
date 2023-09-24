@@ -1,9 +1,15 @@
-$base-color: #2F2F2F;
-$base-color-light: #545454;
-$bg-color: #FFF;
+$primary-color: #2F2F2F;
+$primary-color-light: rgb(88, 88, 88);
+$primary-color-extra-light: rgb(151, 151, 151);
+$primary-color-dark: rgb(32, 32, 32);
+$primary-contrast: #FFF;
 
-$base-color-secondary: #FFF;
-$bg-color-secondary: #2f2f2fCC;
+$secondary-color: rgb(140, 84, 208);
+$secondary-color-light: rgb(163, 118, 217);
+$secondary-color-dark: rgb(98, 58, 145);
+$secondary-color-contrast: #FFF;
+
+$karla: 'Karla Variable', sans-serif;
 
 * {
     box-sizing: border-box;
@@ -22,20 +28,9 @@ section {
     padding-right: 40px;
 }
 
-h1,
-h2,
-h2,
-h3,
-h4,
-h5,
-p,
-span,
-div {
-    color: $base-color;
-
-    &.secondary {
-        color: $base-color-secondary;
-    }
+h1 {
+    font-size: 2.5em;
+    letter-spacing: -3%;
 }
 
 h2 {
@@ -43,24 +38,8 @@ h2 {
 }
 
 h3 {
-    font-weight: 500;
-}
-
-div {
-    background-color: $bg-color;
-
-    &.secondary {
-        background-color: $bg-color-secondary;
-    }
-}
-
-h1 {
-    font-size: 2.5em;
-    letter-spacing: -3%;
-}
-
-h3 {
     font-size: 1.25em;
+    font-weight: 500;
 }
 
 input {
@@ -73,8 +52,8 @@ input {
     margin: auto;
 
     .header {
-        background-color: $base-color;
-        color: $base-color-secondary;
+        background-color: $primary-color;
+        color: $secondary-color;
         height: 80px;
 
         display: grid;
@@ -89,20 +68,23 @@ input {
 
             // Burger Menu
             .MuiSvgIcon-root {
+                color: $primary-contrast;
                 cursor: pointer;
             }
 
             .navlink {
                 color: #FFF;
                 text-align: center;
-                font-family: 'Karla Variable', sans-serif;
+                font-family: $karla;
                 font-size: 16px;
                 font-style: normal;
                 font-weight: 700;
                 line-height: normal;
                 text-decoration: none;
+                width: fit-content;
 
                 &:hover
+
                 /*, &.active */
                     {
                     text-decoration: underline;
@@ -112,17 +94,25 @@ input {
 
         .navlink-logo {
             text-align: center;
+            width: fit-content;
+            justify-self: center;
 
             .logo {
                 display: inline-block;
-                color: $base-color-secondary;
+                color: $primary-contrast;
                 text-align: center;
-                font-family: 'Karla Variable', sans-serif;
+                font-family: $karla;
                 font-style: normal;
                 font-weight: 800;
                 line-height: normal;
                 letter-spacing: -3.84px;
                 cursor: pointer;
+
+                transition: all 0.3s;
+
+                &:hover {
+                    font-size: 3em;
+                }
             }
         }
 
@@ -135,8 +125,8 @@ input {
             padding-left: .75em;
             border-radius: 1.5em;
 
-            background-color: $bg-color;
-            color: $base-color-light;
+            background-color: $primary-contrast;
+            color: $primary-color-light;
 
             .MuiSvgIcon-root {
                 font-size: 1.5em;
@@ -150,17 +140,49 @@ input {
         }
     }
 
-    .home {
-        background-color: $base-color-light;
+    .footer {
+        background-color: $primary-color;
+        color: $secondary-color;
 
-        height: calc(100vh - 80px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        height: 60px;
+
+        .credit {
+            font-weight: 600;
+            letter-spacing: -5%;
+            color: $primary-color-light;
+        }
+    }
+
+    .home {
+        background-color: $primary-color-light;
 
         display: flex;
         flex-direction: column;
 
+        .navlink {
+            text-decoration: none;
+            cursor: url('./assets/carts_cursor.png'), auto;
+
+            &:hover .intro * {
+                color: $secondary-color-light;
+            }
+        }
+
+        .vh-container {
+            background-color: $primary-color-light;
+            height: calc(100vh - 80px);
+
+            display: flex;
+            flex-direction: column;
+        }
+
         section {
             * {
-                color: $bg-color;
+                color: $primary-contrast;
             }
         }
 
@@ -170,10 +192,11 @@ input {
             gap: 4em;
             align-items: center;
             justify-content: center;
-            font-family: 'Karla Variable', sans-serif;
+            font-family: $karla;
             padding-block: 100px;
 
             * {
+                transition: color 1s;
                 text-align: center;
             }
         }
@@ -187,6 +210,238 @@ input {
             filter: invert(40%) sepia(83%) saturate(120%) hue-rotate(229deg) brightness(83%) contrast(350%);
             min-height: 200px;
             box-shadow: inset 0 0 12px #000000;
+        }
+    }
+
+    .categories {
+        padding-block: 65px;
+        min-height: calc(100vh - 80px);
+
+        .intro {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: $secondary-color;
+            margin-bottom: 65px;
+        }
+
+        .categoryItems {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 5em;
+
+            .category {
+                background-color: $primary-color;
+                color: white;
+                box-shadow: 0px 10px 8px -3px rgba(140, 84, 208, 0.3);
+
+                display: flex;
+                flex-direction: column;
+
+                border-radius: 25px;
+                overflow: hidden;
+
+                .thumbnail-container {
+                    overflow: hidden;
+                    height: 125px;
+
+                    .thumbnail {
+                        object-fit: cover;
+                        max-width: 100%;
+                    }
+                }
+
+                .info {
+                    display: flex;
+                    flex-direction: column;
+                    width: 100%;
+                    padding: .7em 1em;
+
+                    h3 {
+                        font-family: $karla;
+                        font-size: 1.5em;
+                        font-style: normal;
+                        font-weight: 700;
+                        line-height: normal;
+                        letter-spacing: 0.72px;
+                    }
+
+                    p {
+                        margin-top: 8px;
+                    }
+                }
+            }
+        }
+    }
+
+    .products {
+        padding: 65px 40px;
+        display: flex;
+        flex-direction: column;
+        gap: 2em;
+        min-height: calc(100vh - 80px);
+
+        .filters {
+            display: flex;
+            gap: 4em;
+
+            .filter {
+                display: inline-flex;
+                align-items: center;
+                color: $primary-color;
+                font-family: $karla;
+                font-size: 1.1em;
+                font-style: normal;
+                font-weight: 700;
+                line-height: normal;
+                cursor: pointer;
+
+                &:hover {
+                    text-decoration: underline;
+                }
+            }
+        }
+
+        .products-list {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 60px;
+
+            .product {
+                background-color: $primary-color;
+                color: white;
+                box-shadow: 0px 10px 8px -3px rgba(140, 84, 208, 0.3);
+
+                display: flex;
+                flex-direction: column;
+
+                border-radius: 25px;
+                overflow: hidden;
+
+                overflow-wrap: break-word;
+
+                .thumbnail-container {
+                    overflow: hidden;
+                    height: 225px;
+
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+
+                    .thumbnail {
+                        object-fit: cover;
+                        width: 100%;
+                    }
+                }
+
+                .info {
+                    display: flex;
+                    flex-direction: column;
+
+                    width: 100%;
+
+                    padding: 1em 1em 1.5em 1em;
+                    gap: .5em;
+
+                    .title {
+                        font-size: 1.75em;
+                        font-weight: 300;
+                    }
+
+                    .brand {
+                        font-weight: 200;
+                    }
+
+                    .rating {
+                        display: flex;
+                        align-items: center;
+
+                        .MuiSvgIcon-root {
+                            color: yellow;
+                        }
+
+                        .rating-value {
+                            margin-left: 5px;
+                            font-size: 1.1em;
+                            font-weight: bold;
+                        }
+                    }
+
+                    .discount {
+                        display: inline-flex;
+                        width: fit-content;
+                        padding: 4px 12px;
+                        align-items: center;
+
+                        margin-top: 1.5em;
+
+                        border-radius: 8px;
+                        background: #D32F2F;
+
+                        font-family: $karla;
+                        font-size: 1em;
+                        font-style: normal;
+                        font-weight: 700;
+                        line-height: normal;
+                        letter-spacing: -0.48px;
+                    }
+
+                    .pricing {
+                        display: flex;
+                        align-items: end;
+                        gap: 10px;
+
+                        .price {
+                            font-size: 1.5em;
+                            font-weight: bold;
+                            letter-spacing: -5%;
+                        }
+
+                        .rrp {
+                            color: $primary-color-extra-light;
+
+                            .value {
+                                text-decoration: line-through;
+                            }
+                        }
+                    }
+
+                    .stock {
+                        font-size: 1.25em;
+                        font-weight: 700;
+                        margin-top: -.4em;
+
+                        &.in-stock {
+                            color: #4CAF50;
+                        }
+
+                        &.out-of-stock {
+                            color: #D32F2F;
+                        }
+                    }
+
+                    .addToCart {
+                        width: fit-content;
+                        align-self: center;
+
+                        display: inline-flex;
+                        padding: 12px 60px;
+                        justify-content: center;
+                        align-items: center;
+                        border-radius: 50px;
+                        cursor: url("./assets/carts_cursor.png"), auto;
+
+                        border: none;
+                        background-color: $secondary-color;
+                        color: $secondary-color-contrast;
+                        font-size: 1.1em;
+                    }
+                }
+            }
+        }
+
+        .pageNavigation {
+            align-self: center;
         }
     }
 }

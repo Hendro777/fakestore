@@ -7,13 +7,13 @@ const Header = function () {
         <header className="header">
             <nav className='nav'>
                 <MenuIcon fontSize="large" />
-                <NavLink className='navlink'>Categories</NavLink>
-                <NavLink className='navlink'>Discounts</NavLink>
-                <NavLink className='navlink'>Brand New</NavLink>
+                <NavLink className='navlink' to='categories'>All Categories</NavLink>
+                <NavLink className='navlink'>Deals</NavLink>
+                <NavLink className='navlink'>About</NavLink>
             </nav>
-            <NavLink className="navlink-logo"><h1 className='logo'>fakestore</h1></NavLink>
+            <NavLink className="navlink-logo" to=""><h1 className='logo'>fakestore</h1></NavLink>
             <div className='search'>
-                <SearchIcon fontSize='large' classes='icon' />
+                <SearchIcon fontSize='large' />
                 <input type="text" placeholder='Search'></input>
             </div>
         </header>
