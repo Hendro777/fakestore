@@ -12,7 +12,8 @@ import Categories from './pages/Categories'
 import Products from './pages/Products'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <BrowserRouter>
+  <BrowserRouter
+    basename={import.meta.env.DEV ? '/' : '/fakestore/'}>
     <Routes>
       <Route element={<SiteLayout />}>
         <Route index element={<Home />} />
