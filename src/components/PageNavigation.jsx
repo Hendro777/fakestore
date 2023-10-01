@@ -30,20 +30,24 @@ const muiIconSX = {
 }
 
 const PageNavigation = function (props) {
+    let currentPageNum = typeof (props.currentPage) !== "number"
+        ? Number(props.currentPage)
+        : props.currentPage
+
     const PageButtonItems = () => {
         const items = []
 
-        let lowerEnd = Math.max(props.currentPage - props.offset, 1)
-        let upperEnd = Math.min(props.currentPage + props.offset, props.pageCount)
+        let lowerEnd = Math.max(currentPageNum - props.offset, 1)
+        let upperEnd = Math.min(currentPageNum + props.offset, props.totalPages)
 
         // Make sure that the amount of buttons is always the same
         const buttonCount = upperEnd - lowerEnd + 1
-        if (props.currentPage <= props.offset) {
+        if (currentPageNum <= props.offset) {
             upperEnd = Math.min(
                 upperEnd + (1 + props.offset * 2) - buttonCount,
-                props.pageCount
+                props.totalPages
             )
-        } else if (props.currentPage > props.pageCount - props.offset) {
+        } else if (currentPageNum > props.totalPages - props.offset) {
             lowerEnd = Math.max(
                 lowerEnd - (1 + props.offset * 2) + buttonCount,
                 1
@@ -55,7 +59,7 @@ const PageNavigation = function (props) {
                 <PageButton
                     key={['page', page].join('-')}
                     toPage={page}
-                    active={page === props.currentPage}
+                    active={page === currentPageNum}
                     selectPage={() => props.setCurrentPage(page)} />
             )
         }
@@ -66,7 +70,7 @@ const PageNavigation = function (props) {
     return (
         <div className="pageNavigation" style={pageNavigationStyle}>
             {
-                props.currentPage > 1 &&
+                currentPageNum > 1 &&
                 (
                     <>
                         <KeyboardDoubleArrowSharpLeftIcon
@@ -74,21 +78,21 @@ const PageNavigation = function (props) {
                             onClick={() => props.setCurrentPage(1)} />
                         <ArrowBackSharpIcon
                             sx={muiIconSX}
-                            onClick={() => props.setCurrentPage(props.currentPage - 1)} />
+                            onClick={() => props.setCurrentPage(currentPageNum - 1)} />
                     </>
                 )
             }
             {PageButtonItems()}
             {
-                props.currentPage < props.pageCount &&
+                currentPageNum < props.totalPages &&
                 (
                     <>
                         <ArrowForwardSharpIcon
                             sx={muiIconSX}
-                            onClick={() => props.setCurrentPage(props.currentPage + 1)} />
+                            onClick={() => props.setCurrentPage(currentPageNum + 1)} />
                         <KeyboardDoubleArrowRightSharpIcon
                             sx={muiIconSX}
-                            onClick={() => props.setCurrentPage(props.pageCount)} />
+                            onClick={() => props.setCurrentPage(props.totalPages)} />
                     </>
                 )
             }
@@ -100,13 +104,13 @@ const PageNavigation = function (props) {
 
 const PageButton = function (props) {
     // Style
-    const Button = styled.button `
+    const Button = styled.button`
         border: 1px solid rgb(163, 118, 217);
         border-radius: 50px;
         height: 48px;
         width: 48px;
         color: ${props.active ? '#FFF' : '#2F2F2F'};
-        background-color: ${props.active ? 'rgb(163, 118, 217)' :'rgb(255,255,255)'};
+        background-color: ${props.active ? 'rgb(163, 118, 217)' : 'rgb(255,255,255)'};
         padding: .5em 1em;
         box-shadow: 0px 6px 6px -3px rgba(140, 84, 208, 0.7);
         cursor: pointer;

@@ -9,7 +9,7 @@ import '@fontsource-variable/karla'
 import SiteLayout from "./components/SiteLayout"
 import Home from './pages/Home'
 import Categories, { loader as categoriesLoader } from './pages/Categories'
-import Products from './pages/Products'
+import Products, { loader as productsLoader } from './pages/Products'
 import ProductDetails, { loader as productDetailsLoader } from './pages/ProductDetails/ProductDetails'
 import ProductDescription from "./pages/ProductDetails/ProductDescription"
 import ProductSpecifications from './pages/ProductDetails/ProductSpecifications'
@@ -19,7 +19,7 @@ const router = createBrowserRouter(createRoutesFromElements(
   <Route element={<SiteLayout />}>
     <Route index element={<Home />} />
     <Route path="categories" element={<Categories />} loader={categoriesLoader} />
-    <Route path="products" element={<Products />} />
+    <Route path="products" element={<Products />} loader={productsLoader} />
     <Route path="products/:id" element={<ProductDetails />} loader={productDetailsLoader}>
       <Route index element={<ProductDescription />} />
       <Route path="specifications" element={<ProductSpecifications />} />

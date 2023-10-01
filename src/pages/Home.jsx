@@ -4,7 +4,7 @@ import shoppingCart from "../assets/black-friday-elements-assortment.jpg"
 const Home = function () {
     return (
         <main className="home">
-            <NavLink className="navlink" to="products">
+            <NavLink className="navlink" to="products?page=1">
                 <div className="vh-container">
                     <section className="intro">
                         <h2>you want it? we have it.</h2>

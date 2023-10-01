@@ -6,45 +6,46 @@ import StarHalfIcon from '@mui/icons-material/StarHalf';
 import StarIcon from '@mui/icons-material/Star';
 
 import PageNavigation from "../components/PageNavigation";
-import { NavLink } from "react-router-dom";
+import { NavLink, useLoaderData, useSearchParams } from "react-router-dom";
+import { getProductsPaginated } from "../api";
 
+const LIMIT = 6
 
-const Products = function () {
-    const LIMIT = 6
-    const [pages, setPages] = useState(undefined)
-    const [products, setProducts] = useState([])
+export async function loader({ request, params }) {
+    const currentPage = new URL(request.url).searchParams.get("page") || 1
+
+    console.log(currentPage)
+
+    const data = await getProductsPaginated(LIMIT, currentPage)
+    const products = data.products
+    const pages = {
+        currentPage,
+        total: data.total
+    }
+
+    return { products, pages }
+}
+
+export default function Products() {
+    const loaderData = useLoaderData()
+    const [searchParams, setSearchParams] = useSearchParams()
+
+    const [pages, setPages] = useState(loaderData.pages)
+    const [products, setProducts] = useState(loaderData.products)
 
     useEffect(() => {
-        async function fetchPageLength() {
-            const apiEndpoint = 'https://dummyjson.com/products?limit=1'
-            const response = await fetch(apiEndpoint)
-            const data = await response.json()
-            const pageCount = Math.ceil(data.total / LIMIT)
-
-            setPages({
-                currentPage: 1,
-                pageCount: pageCount
+        async function updateProducts() {
+            setSearchParams(prevParams => {
+                prevParams.set("page", pages.currentPage)
+                return prevParams
             })
+            
+            const data = await getProductsPaginated(LIMIT, pages.currentPage)
+
+            setProducts(data.products)
         }
 
-        fetchPageLength()
-    }, [])
-
-    useEffect(() => {
-        async function fetchProducts() {
-            const apiEndpoint = `https://dummyjson.com/products?limit=${LIMIT}&skip=${LIMIT * (pages?.currentPage - 1)}`
-            console.log(apiEndpoint)
-            const response = await fetch(apiEndpoint)
-            const data = await response.json()
-            const products = data.products
-
-            setProducts(products)
-        }
-
-        if (pages != undefined) {
-            console.log(pages.currentPage)
-            fetchProducts()
-        }
+        updateProducts()
     }, [pages])
 
     const getStarIcons = function (rating) {
@@ -100,7 +101,7 @@ const Products = function () {
             </div>
             {pages && <PageNavigation
                 currentPage={pages.currentPage}
-                pageCount={pages.pageCount}
+                totalPages={pages.total}
                 setCurrentPage={setCurrentPage}
                 offset={2} />}
         </main>
@@ -155,5 +156,3 @@ const ProductItem = function (props) {
         </div >
     )
 }
-
-export default Products
