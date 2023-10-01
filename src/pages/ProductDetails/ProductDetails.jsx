@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { Link, NavLink, Outlet, useParams } from "react-router-dom"
+import { Link, NavLink, Outlet, useLoaderData, useParams } from "react-router-dom"
 import ProductRating from "../../components/ProductRating"
 
 import { CircularProgress } from "@mui/material"
@@ -7,27 +7,17 @@ import UnfoldMoreIcon from '@mui/icons-material/UnfoldMore';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import ShareIcon from '@mui/icons-material/Share';
+import { getProductById } from "../../api";
+ 
+export async function loader({ params }) {
+    return getProductById(params.id)
+}
 
-const ProductDetails = function () {
-    const params = useParams()
+function ProductDetails() {
+    const product = useLoaderData()
 
-    const [product, setProduct] = useState()
     const [deliveryDate, setDeliveryDate] = useState()
     const [displayedImage, setDisplayedImage] = useState()
-
-    useEffect(() => {
-        async function fetchProduct() {
-            const apiEndpoint = `https://dummyjson.com/products/${params.id}`
-            const response = await fetch(apiEndpoint)
-            const data = await response.json()
-
-            console.log(data)
-
-            setProduct(data)
-        }
-
-        fetchProduct()
-    }, [])
 
     useEffect(() => {
         let date = new Date(Date.now())
@@ -42,13 +32,15 @@ const ProductDetails = function () {
 
     function getProductImages() {
         const imageItems = []
-        for(let image of product.images) {
+        let i = 1
+        for (let image of product.images) {
             imageItems.push(
-                <img 
-                    src={image} 
+                <img
+                    key={image}
+                    src={image}
                     className={displayedImage == image ? "active" : ""}
                     onClick={() => setDisplayedImage(image)
-                    }/>
+                    } />
             )
         }
 
@@ -118,7 +110,7 @@ const ProductDetails = function () {
                         <NavLink end to="specifications" className="navlink"> Specifications</NavLink>
                         <NavLink end to="reviews" className="navlink">Reviews</NavLink>
                     </nav>
-                    <Outlet context={product}/>
+                    <Outlet context={product} />
                 </>
             ) :
                 <CircularProgress />
