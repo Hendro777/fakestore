@@ -18,7 +18,7 @@ import ProductReviews from './pages/ProductDetails/ProductReviews'
 const router = createBrowserRouter(createRoutesFromElements(
   <Route element={<SiteLayout />}>
     <Route index element={<Home />} />
-    <Route path="categories" element={<Categories />} loader={categoriesLoader} />
+    <Route path="categories" element={<Categories />} />
     <Route path="products" element={<Products />} />
     <Route path="products/:id" element={<ProductDetails />}>
       <Route index element={<ProductDescription />} />
