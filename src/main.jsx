@@ -15,23 +15,6 @@ import ProductDescription from "./pages/ProductDetails/ProductDescription"
 import ProductSpecifications from './pages/ProductDetails/ProductSpecifications'
 import ProductReviews from './pages/ProductDetails/ProductReviews'
 
-ReactDOM.createRoot(document.getElementById('root')).render(
-  <BrowserRouter
-    basename={import.meta.env.DEV ? '/' : '/fakestore/'}>
-    <Routes>
-      <Route element={<SiteLayout />}>
-        <Route index element={<Home />} />
-        <Route path="categories" element={<Categories />} />
-        <Route path="products" element={<Products />} />
-        <Route path="products/:id" element={<ProductDetails />}>
-          <Route index element={<ProductDescription />} />
-          <Route path="specifications" element={<ProductSpecifications />} />
-          <Route path="reviews" element={<ProductReviews />} />
-        </Route>
-      </Route>
-    </Routes>
-  </BrowserRouter>
-
 const router = createBrowserRouter(createRoutesFromElements(
   <Route element={<SiteLayout />}>
     <Route index element={<Home />} />
