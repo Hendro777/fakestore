@@ -7,17 +7,17 @@ import StarIcon from '@mui/icons-material/Star';
 
 import PageNavigation from "../components/PageNavigation";
 import { NavLink, useLoaderData, useSearchParams } from "react-router-dom";
-import { getProductsPaginated } from "../api";
+import { getProductsByCategory } from "../api";
+import { Category } from "@mui/icons-material";
 
 const LIMIT = 6
 
 export async function loader({ request, params }) {
     const searchParams = new URL(request.url).searchParams
     const currentPage = searchParams.get("page") || 1
+    const category = searchParams.get("category")
 
-    console.log(currentPage)
-
-    const data = await getProductsPaginated(LIMIT, currentPage)
+    const data = await getProductsByCategory(category, LIMIT, currentPage)
     const products = data.products
     const pages = {
         currentPage,
@@ -38,14 +38,11 @@ export default function Products() {
     const [pages, setPages] = useState(loaderData.pages)
     const [products, setProducts] = useState(loaderData.products)
 
+    const categoryFilter = searchParams.get("category")
+
     useEffect(() => {
         async function updateProducts() {
-            setSearchParams(prevParams => {
-                prevParams.set("page", pages.currentPage)
-                return prevParams
-            })
-            
-            const data = await getProductsPaginated(LIMIT, pages.currentPage)
+            const data = await getProductsByCategory(categoryFilter, LIMIT, pages.currentPage)
 
             setProducts(data.products)
         }
@@ -88,6 +85,12 @@ export default function Products() {
     ))
 
     const setCurrentPage = function (newPage) {
+        setSearchParams(prevParams => {
+            prevParams.set("page", pages.currentPage)
+            return prevParams
+        })
+        
+
         setPages(prevPages => ({
             ...prevPages,
             currentPage: newPage
