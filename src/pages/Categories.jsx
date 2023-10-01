@@ -1,26 +1,14 @@
 import { useEffect, useState } from "react"
+import { useLoaderData } from "react-router-dom"
+import { getCategories } from "../api"
 
-const Categories = function () {
-    const [categories, setCategories] = useState([])
+export async function loader() {
+    return getCategories()
+}
 
-    useEffect(() => {
-        async function fetchCategories() {
-            const apiEndpoint = "https://dummyjson.com/products/categories/"
-            const response = await fetch(apiEndpoint)
-            const data = await response.json()
-
-            console.log(data)
-
-            if(data.length > 0) {
-                setCategories(data.map(category => ({
-                    title: category,
-                    thumbnail: null
-                })))
-            }
-        }
-
-        fetchCategories()
-    }, [])
+function Categories() {
+    const [categories, setCategories] = useState(useLoaderData())
+    console.log("loader data", categories)
 
     const categoryItems = categories.map(category => (
         <Category
