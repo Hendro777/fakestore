@@ -12,7 +12,8 @@ import { getProductsPaginated } from "../api";
 const LIMIT = 6
 
 export async function loader({ request, params }) {
-    const currentPage = new URL(request.url).searchParams.get("page") || 1
+    const searchParams = new URL(request.url).searchParams
+    const currentPage = searchParams.get("page") || 1
 
     console.log(currentPage)
 
@@ -20,7 +21,11 @@ export async function loader({ request, params }) {
     const products = data.products
     const pages = {
         currentPage,
-        total: data.total
+        total: Math.ceil(data.total / LIMIT)
+    }
+
+    if(currentPage > pages.total) {
+        // redirect to 404 or Error page
     }
 
     return { products, pages }
