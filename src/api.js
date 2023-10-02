@@ -6,18 +6,12 @@ export async function getCategories() {
   checkResponseForError(response)
   const data = await response.json()
 
-  if (data.length > 0) {
-    const categories = data.map(category => ({title: category, thumbnail: null}))
-
-    return categories
-  }
-
   return data
 }
 
 export async function getProductsByCategory(category, limit, currentPage) {
   if (!limit) {
-    throw {message: "getProducts: limit must be set!"}
+    throw { message: "getProducts: limit must be set!" }
   }
 
   const apiSubpath = category
@@ -53,6 +47,10 @@ export async function getProductById(id) {
 
 function checkResponseForError(response) {
   if (!response.ok) {
-    throw {message: data.message, statusText: response.statusText, status: response.status}
+    throw {
+      message: data.message,
+      statusText: response.statusText,
+      status: response.status
+    }
   }
 }

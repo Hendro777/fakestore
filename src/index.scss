@@ -6,6 +6,7 @@ $primary-contrast: #FFF;
 
 $secondary-color: rgb(140, 84, 208);
 $secondary-color-light: rgb(163, 118, 217);
+$secondary-color-extra-light: rgb(212, 184, 245);
 $secondary-color-dark: rgb(98, 58, 145);
 $secondary-color-contrast: #FFF;
 
@@ -282,21 +283,114 @@ input {
 
         .filters {
             display: flex;
-            gap: 4em;
+            gap: 2em;
 
             .filter {
-                display: inline-flex;
-                align-items: center;
-                color: $primary-color;
-                font-family: $karla;
-                font-size: 1.1em;
-                font-style: normal;
-                font-weight: 700;
-                line-height: normal;
-                cursor: pointer;
 
-                &:hover {
+                .filterTitle {
+                    position: relative;
+                    display: inline-flex;
+                    align-items: center;
+                    color: $primary-color;
+                    font-family: $karla;
+                    font-size: 1.1em;
+                    font-style: normal;
+                    font-weight: 700;
+                    line-height: normal;
+                    cursor: pointer;
+                    padding: 10px;
+                }
+
+                .filterTitle:hover {
                     text-decoration: underline;
+
+                    &+ .filterOptions {
+                        display: grid;
+                    }
+                }
+
+                .filterOptions {
+                    position: absolute;
+                    top: auto;
+                    display: none;
+                    grid-template-columns: 1fr 1fr;
+                    gap: 1em;
+
+                    padding: 1.25em 1em;
+                    background-color: $primary-color;
+
+                    border: 2px solid $secondary-color-light;
+                    box-shadow: 0 6px 3px -3px rgba(140, 84, 208, 1);
+                    border-radius: 1em;
+
+                    &:hover {
+                        display: grid;
+                    }
+
+                    .checkboxControl {
+                        display: grid;
+                        grid-template-columns: 1em auto;
+                        gap: .5em;
+
+                        color: $primary-contrast;
+                        font-size: 1.05em;
+                        font-weight: 500;
+                        letter-spacing: -0.25px;
+                        line-height: 1.1;
+                        white-space: nowrap;
+
+                        &:focus-within,
+                        &:hover {
+                            color: $secondary-color-extra-light;
+                        }
+
+                        input[type="radio"] {
+                            /* Add if not using autoprefixer */
+                            -webkit-appearance: none;
+                            appearance: none;
+                            /* For iOS < 15 to remove gradient background */
+                            background-color: none;
+                            /* Not removed via appearance */
+                            margin: 0;
+
+                            // Unchecked
+                            font: inherit;
+                            color: currentColor;
+                            width: 1.15em;
+                            height: 1.15em;
+                            border: 0.15em solid currentColor;
+                            border-radius: 50%;
+
+                            transform: translateY(-0.075em);
+
+                            // Needs to be like this to style before
+                            display: grid;
+                            place-content: center;
+
+                            &::before {
+                                content: "";
+                                width: 0.65em;
+                                height: 0.65em;
+                                border-radius: 50%;
+                                transform: scale(0);
+                                transition: 120ms all ease-in-out;
+                                box-shadow: inset 1em 1em $secondary-color-light;
+
+                                /* Windows High Contrast Mode */
+                                background-color: CanvasText;
+                            }
+
+                            &:checked::before {
+                                transform: scale(1);
+                            }
+
+                            &:focus,
+                            &:hover {
+                                color: $secondary-color-light;
+                                box-shadow: 0px 4px 4px -2px rgba(140, 84, 208, 0.4);
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -425,9 +519,11 @@ input {
 
                     border: none;
                     background-color: $secondary-color-light;
+
                     &:hover {
                         background-color: $secondary-color;
                     }
+
                     color: $secondary-color-contrast;
                     font-size: 1.1em;
                 }

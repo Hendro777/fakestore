@@ -7,7 +7,7 @@ import StarIcon from '@mui/icons-material/Star';
 
 import PageNavigation from "../components/PageNavigation";
 import { NavLink, useLoaderData, useSearchParams } from "react-router-dom";
-import { getProductsByCategory } from "../api";
+import { getCategories, getProductsByCategory } from "../api";
 import { Category } from "@mui/icons-material";
 
 const LIMIT = 6
@@ -15,20 +15,31 @@ const LIMIT = 6
 export async function loader({ request, params }) {
     const searchParams = new URL(request.url).searchParams
     const currentPage = searchParams.get("page") || 1
+    const categories = await getCategories()
     const category = searchParams.get("category")
 
+    if (category && categories.indexOf(category) === -1) {
+        throw {
+            message: "The selected does not exist!"
+        }
+    }
+
     const data = await getProductsByCategory(category, LIMIT, currentPage)
-    const products = data.products
     const pages = {
         currentPage,
         total: Math.ceil(data.total / LIMIT)
     }
+    const products = data.products
 
-    if(currentPage > pages.total) {
+    if (pages.total > 0 &&
+        (currentPage > pages.total || currentPage < 1)) {
         // redirect to 404 or Error page
+        throw {
+            message: `The selected pagenumber (${currentPage}) does not exist`
+        }
     }
 
-    return { products, pages }
+    return { products, pages, categories }
 }
 
 export default function Products() {
@@ -38,6 +49,7 @@ export default function Products() {
     const [pages, setPages] = useState(loaderData.pages)
     const [products, setProducts] = useState(loaderData.products)
 
+    const categories = loaderData.categories
     const categoryFilter = searchParams.get("category")
 
     useEffect(() => {
@@ -48,7 +60,7 @@ export default function Products() {
         }
 
         updateProducts()
-    }, [pages])
+    }, [pages, categoryFilter])
 
     const getStarIcons = function (rating) {
         const starIcons = []
@@ -84,12 +96,40 @@ export default function Products() {
             getStarIcons={() => getStarIcons(product.rating)} />
     ))
 
+    function handleFilterChange(key, value) {
+        setSearchParams(searchParams => {
+            if (value === null) {
+                searchParams.delete(key)
+            } else {
+                searchParams.set(key, value)
+            }
+
+            return searchParams
+        })
+    }
+
+    const categoryControls = categories.map(category => (<label
+        key={[category, "control"].join("-")}
+        className="checkboxControl" htmlFor={category}>
+        <input
+            type="radio"
+            name="categoryFilter"
+            id={category}
+            value={category}
+            checked={categoryFilter === category}
+            onChange={() => handleFilterChange("category", category)} />
+        {category.charAt(0).toUpperCase() + category.slice(1)}
+    </label>
+    ))
+
+    console.log(categoryControls)
+
     const setCurrentPage = function (newPage) {
         setSearchParams(prevParams => {
             prevParams.set("page", pages.currentPage)
             return prevParams
         })
-        
+
 
         setPages(prevPages => ({
             ...prevPages,
@@ -100,19 +140,30 @@ export default function Products() {
     return (
         <main className='products'>
             <div className="filters">
-                <span className="filter">Categories<ExpandMoreIcon /></span>
-                <span className="filter">Sort by<ExpandMoreIcon /></span>
-                <span className="filter">Price Range<ExpandMoreIcon /></span>
+                <div className="filter">
+                    <span className="filterTitle">Categories<ExpandMoreIcon /></span>
+                    <div className="filterOptions">
+                        {categoryControls}
+                    </div>
+                </div>
+                <div className="filter">
+                    <span className="filterTitle">Sort by<ExpandMoreIcon /></span>
+                </div>
+                <div className="filter">
+                    <span className="filterTitle">Price Range<ExpandMoreIcon /></span>
+                </div>
             </div>
             <div className="products-list">
                 {productItems}
             </div>
-            {pages && <PageNavigation
-                currentPage={pages.currentPage}
-                totalPages={pages.total}
-                setCurrentPage={setCurrentPage}
-                offset={2} />}
-        </main>
+            {
+                pages && <PageNavigation
+                    currentPage={pages.currentPage}
+                    totalPages={pages.total}
+                    setCurrentPage={setCurrentPage}
+                    offset={2} />
+            }
+        </main >
     )
 }
 

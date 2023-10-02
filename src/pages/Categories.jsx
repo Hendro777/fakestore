@@ -7,8 +7,12 @@ export async function loader() {
 }
 
 function Categories() {
-    const [categories, setCategories] = useState(useLoaderData())
-    console.log("loader data", categories)
+    const [categories, setCategories] = useState(useLoaderData().map(category => (
+        {
+            title: category,
+            thumbnail: null,
+        }
+    )))
 
     const categoryItems = categories.map(category => (
         <Category
