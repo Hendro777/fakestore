@@ -45,7 +45,7 @@ export async function getProductById(id) {
   return data
 }
 
-function checkResponseForError(response) {
+export function checkResponseForError(response) {
   if (!response.ok) {
     throw {
       message: response.message,
