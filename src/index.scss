@@ -243,6 +243,39 @@ input {
         align-items: center;
         color: $secondary-color-extra-light;
         background-color: $primary-color-light;
+        
+        .container {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            gap: 1em;
+            padding: 3em 5em;
+            border-radius: .5em;
+            color: $error-contrast-text;
+            background: $error-main;
+
+            z-index: 1;
+            background-image: linear-gradient(to right, $secondary-color-dark 0%, $secondary-color 80%, $secondary-color-light 100%);
+
+            &::before {
+                content: "";
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: -5px;
+                bottom: -5px;
+                z-index: -1;
+                border-radius: .5em;
+
+                background-image: linear-gradient(to right, $secondary-color-dark 0%, $secondary-color 80%, $secondary-color-light 100%);
+                filter: blur(5px);
+            }
+
+            .message {
+                font-weight: 300;
+                font-size: 1.1em;
+            }
+        }
     }
 
     .error {
@@ -268,8 +301,8 @@ input {
             &::before {
                 content: "";
                 position: absolute;
-                top: -5px;
-                left: -5px;
+                top: 0;
+                left: 0;
                 right: -5px;
                 bottom: -5px;
                 z-index: -1;
