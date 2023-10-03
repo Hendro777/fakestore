@@ -305,8 +305,8 @@ input {
                 .filterTitle:hover {
                     text-decoration: underline;
 
-                    &+ .filterOptions {
-                        display: grid;
+                    &+.filterOptions {
+                        display: flex;
                     }
                 }
 
@@ -315,11 +315,17 @@ input {
                     position: absolute;
                     top: auto;
                     display: none;
-                    grid-template-columns: 1fr 1fr;
-                    gap: 1em;
+                    flex-direction: column;
+                    gap: .7em;
+
 
                     padding: 1.25em 1em;
                     background-color: $primary-color;
+                    color: $primary-contrast;
+                    font-size: 1.05em;
+                    font-weight: 500;
+                    letter-spacing: -0.25px;
+                    line-height: 1.1;
 
                     border: 2px solid $secondary-color-light;
                     box-shadow: 0 6px 3px -3px rgba(140, 84, 208, 1);
@@ -329,68 +335,89 @@ input {
                         display: grid;
                     }
 
-                    .checkboxOption {
+                    .clear {
+                        color: $primary-color-extra-light;
+                    }
+
+                    .options {
                         display: grid;
-                        grid-template-columns: 1em auto;
-                        gap: .5em;
+                        grid-template-columns: 1fr 1fr;
+                        gap: 1em;
 
-                        color: $primary-contrast;
-                        font-size: 1.05em;
-                        font-weight: 500;
-                        letter-spacing: -0.25px;
-                        line-height: 1.1;
-                        white-space: nowrap;
+                        .checkboxOption {
+                            display: grid;
+                            grid-template-columns: 1em auto;
+                            gap: .5em;
 
-                        &:focus-within,
+                            white-space: nowrap;
+
+                            &:focus-within,
+                            &:hover {
+                                color: $secondary-color-extra-light;
+                            }
+
+                            input[type="radio"] {
+                                /* Add if not using autoprefixer */
+                                -webkit-appearance: none;
+                                appearance: none;
+                                /* For iOS < 15 to remove gradient background */
+                                background-color: none;
+                                /* Not removed via appearance */
+                                margin: 0;
+
+                                // Unchecked
+                                font: inherit;
+                                color: currentColor;
+                                width: 1.15em;
+                                height: 1.15em;
+                                border: 0.15em solid currentColor;
+                                border-radius: 50%;
+
+                                transform: translateY(-0.075em);
+
+                                // Needs to be like this to style before
+                                display: grid;
+                                place-content: center;
+
+                                &::before {
+                                    content: "";
+                                    width: 0.65em;
+                                    height: 0.65em;
+                                    border-radius: 50%;
+                                    transform: scale(0);
+                                    transition: 120ms all ease-in-out;
+                                    box-shadow: inset 1em 1em $secondary-color-light;
+
+                                    /* Windows High Contrast Mode */
+                                    background-color: CanvasText;
+                                }
+
+                                &:checked::before {
+                                    transform: scale(1);
+                                }
+
+                                &:focus,
+                                &:hover {
+                                    color: $secondary-color-light;
+                                    box-shadow: 0px 4px 4px -2px rgba(140, 84, 208, 0.4);
+                                }
+                            }
+                        }
+                    }
+                }
+
+                &.selected {
+                    .filterTitle {
+                        color: $secondary-color-dark;
+                    }
+
+                    .filterOptions>.clear {
+                        color: $secondary-color-light;
+                        cursor: pointer;
+
                         &:hover {
                             color: $secondary-color-extra-light;
-                        }
-
-                        input[type="radio"] {
-                            /* Add if not using autoprefixer */
-                            -webkit-appearance: none;
-                            appearance: none;
-                            /* For iOS < 15 to remove gradient background */
-                            background-color: none;
-                            /* Not removed via appearance */
-                            margin: 0;
-
-                            // Unchecked
-                            font: inherit;
-                            color: currentColor;
-                            width: 1.15em;
-                            height: 1.15em;
-                            border: 0.15em solid currentColor;
-                            border-radius: 50%;
-
-                            transform: translateY(-0.075em);
-
-                            // Needs to be like this to style before
-                            display: grid;
-                            place-content: center;
-
-                            &::before {
-                                content: "";
-                                width: 0.65em;
-                                height: 0.65em;
-                                border-radius: 50%;
-                                transform: scale(0);
-                                transition: 120ms all ease-in-out;
-                                box-shadow: inset 1em 1em $secondary-color-light;
-
-                                /* Windows High Contrast Mode */
-                                background-color: CanvasText;
-                            }
-
-                            &:checked::before {
-                                transform: scale(1);
-                            }
-
-                            &:focus,
-                            &:hover {
-                                color: $secondary-color-light;
-                                box-shadow: 0px 4px 4px -2px rgba(140, 84, 208, 0.4);
-                            }
+                            text-decoration: underline;
                         }
                     }
                 }

@@ -43,7 +43,6 @@ export default function Products() {
     // Errorhandling
     if (pages.total > 0 &&
         (pages.currentPage > pages.total || pages.currentPage < 1)) {
-        // redirect to 404 or Error page
         throw {
             message: `The specified pagenumber (${pages.currentPage}) does not exist`
         }
@@ -55,6 +54,7 @@ export default function Products() {
         }
     }
 
+    // Update data when querystring is changed
     useEffect(() => {
         async function updateProducts() {
             const data = await getProductsByCategory(categoryFilter, LIMIT, pages.currentPage)
@@ -69,6 +69,44 @@ export default function Products() {
         updateProducts()
     }, [searchParams])
 
+    const productItems = products?.map(product => (
+        <ProductItem
+            key={product.id}
+            item={product}
+            getStarIcons={() => getStarIcons(product.rating)} />
+    ))
+
+    function handleFilterChange(key, value) {
+        setSearchParams(searchParams => {
+            if (value === null) {
+                searchParams.delete(key)
+            } else {
+                searchParams.set(key, value)
+            }
+            return searchParams
+        })
+    }
+
+    function clearFilters() {
+        setSearchParams({})
+    }
+
+    function handleCategoryChange(value) {
+        handleFilterChange("category", value)
+        handleFilterChange("page", null)
+        setCurrentPage(1)
+    }
+
+    const setCurrentPage = function (newPage) {
+        handleFilterChange("page", newPage === 1 ? null : newPage)
+
+        setPages(prevPages => ({
+            ...prevPages,
+            currentPage: newPage
+        }))
+    }
+
+    // Display stars based on rating
     const getStarIcons = function (rating) {
         const starIcons = []
 
@@ -96,29 +134,6 @@ export default function Products() {
         return starIcons
     }
 
-    const productItems = products?.map(product => (
-        <ProductItem
-            key={product.id}
-            item={product}
-            getStarIcons={() => getStarIcons(product.rating)} />
-    ))
-
-    function handleFilterChange(key, value) {
-        setSearchParams(searchParams => {
-            if (value === null) {
-                searchParams.delete(key)
-            } else {
-                searchParams.set(key, value)
-            }
-            return searchParams
-        })
-    }
-
-    function handleCategoryChange(value) {
-        handleFilterChange("category", value)
-        handleFilterChange("page", null)
-    }
-
     const categoryOptions = categories.map(category => (<label
         key={[category, "option"].join("-")}
         className="checkboxOption" htmlFor={category}>
@@ -133,22 +148,17 @@ export default function Products() {
     </label>
     ))
 
-    const setCurrentPage = function (newPage) {
-        handleFilterChange("page", newPage === 1 ? null : newPage)
-
-        setPages(prevPages => ({
-            ...prevPages,
-            currentPage: newPage
-        }))
-    }
-
     return (
         <main className='products'>
             <div className="filters">
-                <div className="filter">
+                <div className={`filter ${categoryFilter && "selected"}`}>
                     <span className="filterTitle">Categories<ExpandMoreIcon /></span>
                     <div className="filterOptions">
-                        {categoryOptions}
+                        <span className="clear " onClick={() => {
+                            if(!categoryFilter) {return}
+                            handleCategoryChange(null)
+                        }}>Clear categories</span>
+                        <div className="options">{categoryOptions}</div>
                     </div>
                 </div>
                 <div className="filter">
