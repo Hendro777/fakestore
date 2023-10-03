@@ -9,9 +9,8 @@ import CloseIcon from '@mui/icons-material/Close';
 import PageNavigation from "../components/PageNavigation";
 import { NavLink, useLoaderData, useSearchParams } from "react-router-dom";
 import { getCategories, getProductsByCategory } from "../api";
-import { Category, HdrAuto } from "@mui/icons-material";
 
-const LIMIT = 3
+const LIMIT = 12
 
 export async function loader({ request, params }) {
     const searchParams = new URL(request.url).searchParams
@@ -151,11 +150,11 @@ export default function Products() {
     return (
         <main className='products'>
             <div className="filters">
-                <div className={`filter ${categoryFilter && "selected"}`}>
+                <div className={`filter ${categoryFilter && "active"}`}>
                     <span className="filterTitle">Categories<ExpandMoreIcon /></span>
                     <div className="filterOptions">
-                        <span className="clear " onClick={() => {
-                            if(!categoryFilter) {return}
+                        <span className="clear-filter " onClick={() => {
+                            if (!categoryFilter) { return }
                             handleCategoryChange(null)
                         }}>Clear categories</span>
                         <div className="options">{categoryOptions}</div>
@@ -163,10 +162,15 @@ export default function Products() {
                 </div>
                 <div className="filter">
                     <span className="filterTitle">Sort by<ExpandMoreIcon /></span>
+                    <div className="filterOptions not-implemented">
+                    </div>
                 </div>
                 <div className="filter">
                     <span className="filterTitle">Price Range<ExpandMoreIcon /></span>
+                    <div className="filterOptions not-implemented">
+                    </div>
                 </div>
+                {categoryFilter && <span className="clear-all" onClick={() => setSearchParams({})}>Reset filters</span>}
             </div>
             <div className="products-list">
                 {productItems}

@@ -320,6 +320,7 @@ input {
 
 
                     padding: 1.25em 1em;
+                    max-width: 450px;
                     background-color: $primary-color;
                     color: $primary-contrast;
                     font-size: 1.05em;
@@ -332,10 +333,10 @@ input {
                     border-radius: 1em;
 
                     &:hover {
-                        display: grid;
+                        display: flex;
                     }
 
-                    .clear {
+                    .clear-filter {
                         color: $primary-color-extra-light;
                     }
 
@@ -404,14 +405,22 @@ input {
                             }
                         }
                     }
+
+                    &.not-implemented {
+                        &::before {
+                            content: "Just a showcase";
+                            color: $primary-color-extra-light;
+                            text-align: center;
+                        }
+                    }
                 }
 
-                &.selected {
+                &.active {
                     .filterTitle {
                         color: $secondary-color-dark;
                     }
 
-                    .filterOptions>.clear {
+                    .filterOptions>.clear-filter {
                         color: $secondary-color-light;
                         cursor: pointer;
 
@@ -420,6 +429,19 @@ input {
                             text-decoration: underline;
                         }
                     }
+                }
+            }
+
+
+            .clear-all {
+                font-size: 1.05em;
+                font-weight: 500;
+                color: $secondary-color;
+                cursor: pointer;
+
+                &:hover {
+                    color: $secondary-color-dark;
+                    text-decoration: underline;
                 }
             }
         }
