@@ -8,8 +8,8 @@ const Header = function () {
             <nav className='nav'>
                 <MenuIcon fontSize="large" />
                 <NavLink className='navlink' to='categories'>All Categories</NavLink>
-                <NavLink className='navlink'>Deals</NavLink>
-                <NavLink className='navlink'>About</NavLink>
+                <NavLink className='navlink' to='deals'>Deals</NavLink>
+                <NavLink className='navlink' to='about'>About</NavLink>
             </nav>
             <NavLink className="navlink-logo" to=""><h1 className='logo'>fakestore</h1></NavLink>
             <div className='search'>

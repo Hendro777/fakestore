@@ -2,13 +2,37 @@ $primary-color: #2F2F2F;
 $primary-color-light: rgb(88, 88, 88);
 $primary-color-extra-light: rgb(151, 151, 151);
 $primary-color-dark: rgb(32, 32, 32);
-$primary-contrast: #FFF;
+$primary-contrast: #fdfdfd;
 
 $secondary-color: rgb(140, 84, 208);
 $secondary-color-light: rgb(163, 118, 217);
 $secondary-color-extra-light: rgb(212, 184, 245);
 $secondary-color-dark: rgb(98, 58, 145);
 $secondary-color-contrast: #FFF;
+
+$error-main: #f44336;
+$error-light: #e57373;
+$error-dark: #d32f2f;
+$error-contrast-text: #FFF;
+
+$warning-main: #ff9800;
+$warning-light: #ffb74d;
+$warning-dark: #f57c00;
+$warning-contrast-text: rgba(0, 0, 0, 0.87);
+
+$info-main: #2196f3;
+$info-light: #64b5f6;
+$info-dark: #1976d2;
+$info-contrast-text: #FFF;
+
+$success-main: #4caf50;
+$success-light: #81c784;
+$success-dark: #388e3c;
+$success-contrast-text: rgba(0, 0, 0, 0.87);
+
+$divider: rgba(0, 0, 0, 0.12);
+
+
 
 $karla: 'Karla Variable', sans-serif;
 
@@ -222,7 +246,44 @@ input {
     }
 
     .error {
-        color: red;
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+
+        background-color: $primary-color-light;
+
+        .container {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            gap: 1em;
+            padding: 3em 5em;
+            border-radius: .5em;
+            color: $error-contrast-text;
+            background: $error-main;
+
+            z-index: 1;
+            background-image: linear-gradient(to right, $error-dark 0%, $error-main 80%, $error-light 100%);
+
+            &::before {
+                content: "";
+                position: absolute;
+                top: -5px;
+                left: -5px;
+                right: -5px;
+                bottom: -5px;
+                z-index: -1;
+                border-radius: .5em;
+
+                background-image: linear-gradient(to right, $error-dark 0%, $error-main 80%, $error-light 100%);
+                filter: blur(5px);
+            }
+
+            .message {
+                font-weight: 300;
+                font-size: 1.1em;
+            }
+        }
     }
 
     .categories {
@@ -242,9 +303,7 @@ input {
             grid-template-columns: repeat(4, 1fr);
             gap: 5em;
 
-            .link {
-                
-            }
+            .link {}
 
             .category {
                 text-decoration: none;
@@ -426,7 +485,7 @@ input {
                     &.not-implemented {
                         &::before {
                             content: "Just a showcase";
-                            color: $primary-color-extra-light;
+                            color: $info-light;
                             text-align: center;
                         }
                     }

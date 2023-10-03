@@ -44,12 +44,16 @@ export default function Products() {
     if (pages.total > 0 &&
         (pages.currentPage > pages.total || pages.currentPage < 1)) {
         throw {
+            status: 404,
+            statusText: 'Bad query string',
             message: `The specified pagenumber (${pages.currentPage}) does not exist`
         }
     }
 
     if (categoryFilter && categories.indexOf(categoryFilter) === -1) {
         throw {
+            status: 404,
+            statusText: 'Bad query string',
             message: "The specified category does not exist!"
         }
     }
