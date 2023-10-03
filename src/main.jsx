@@ -14,6 +14,7 @@ import ProductDetails, { loader as productDetailsLoader } from './pages/ProductD
 import ProductDescription from "./pages/ProductDetails/ProductDescription"
 import ProductSpecifications from './pages/ProductDetails/ProductSpecifications'
 import ProductReviews from './pages/ProductDetails/ProductReviews'
+import NotFound from './pages/NotFound'
 
 const router = createBrowserRouter(createRoutesFromElements(
   <Route element={<SiteLayout />}>
@@ -25,6 +26,7 @@ const router = createBrowserRouter(createRoutesFromElements(
       <Route path="specifications" element={<ProductSpecifications />} />
       <Route path="reviews" element={<ProductReviews />} />
     </Route>
+    <Route path="*" element={<NotFound />} />
   </Route>
 ), {
   basename: import.meta.env.DEV ? '/' : '/fakestore/'
