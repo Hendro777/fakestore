@@ -48,7 +48,7 @@ export async function getProductById(id) {
 function checkResponseForError(response) {
   if (!response.ok) {
     throw {
-      message: data.message,
+      message: response.message,
       statusText: response.statusText,
       status: response.status
     }

@@ -9,6 +9,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import PageNavigation from "../components/PageNavigation";
 import { NavLink, useLoaderData, useSearchParams } from "react-router-dom";
 import { getCategories, getProductsByCategory } from "../api";
+import { firstLetterToUpperCase } from "../util";
 
 const LIMIT = 12
 
@@ -143,7 +144,7 @@ export default function Products() {
             value={category}
             checked={categoryFilter === category}
             onChange={() => handleCategoryChange(category)} />
-        {category.charAt(0).toUpperCase() + category.slice(1)}
+        {firstLetterToUpperCase(category)}
     </label>
     ))
 

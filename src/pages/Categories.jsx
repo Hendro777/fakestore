@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
-import { useLoaderData } from "react-router-dom"
+import { useLoaderData, Link } from "react-router-dom"
 import { getCategories } from "../api"
+import { firstLetterToUpperCase } from "../util"
 
 export async function loader() {
     return getCategories()
@@ -63,15 +64,15 @@ const Category = function (props) {
     }, [])
 
     return (
-        <div className="category">
+        <Link to={`/products?category=${props.item.title}`} className="category">
             <div className="thumbnail-container">
                 <img className='thumbnail' src={props.item.thumbnail} />
             </div>
             <div className="info">
-                <h3>{props.item.title}</h3>
+                <h3>{firstLetterToUpperCase(props.item.title)}</h3>
                 <p>Checkout our latest {props.item.title} products!</p>
             </div>
-        </div>
+        </Link>
     )
 }
 
