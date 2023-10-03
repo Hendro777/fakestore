@@ -283,13 +283,15 @@ input {
 
         .filters {
             display: flex;
-            gap: 2em;
+            gap: 3em;
 
             .filter {
-
                 .filterTitle {
                     position: relative;
                     display: inline-flex;
+
+                    padding-bottom: .7em;
+
                     align-items: center;
                     color: $primary-color;
                     font-family: $karla;
@@ -298,7 +300,6 @@ input {
                     font-weight: 700;
                     line-height: normal;
                     cursor: pointer;
-                    padding: 10px;
                 }
 
                 .filterTitle:hover {
@@ -310,6 +311,7 @@ input {
                 }
 
                 .filterOptions {
+                    z-index: 1;
                     position: absolute;
                     top: auto;
                     display: none;
@@ -327,7 +329,7 @@ input {
                         display: grid;
                     }
 
-                    .checkboxControl {
+                    .checkboxOption {
                         display: grid;
                         grid-template-columns: 1em auto;
                         gap: .5em;

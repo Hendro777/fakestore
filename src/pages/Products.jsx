@@ -4,25 +4,21 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import StarOutlineIcon from '@mui/icons-material/StarOutline';
 import StarHalfIcon from '@mui/icons-material/StarHalf';
 import StarIcon from '@mui/icons-material/Star';
+import CloseIcon from '@mui/icons-material/Close';
 
 import PageNavigation from "../components/PageNavigation";
 import { NavLink, useLoaderData, useSearchParams } from "react-router-dom";
 import { getCategories, getProductsByCategory } from "../api";
-import { Category } from "@mui/icons-material";
+import { Category, HdrAuto } from "@mui/icons-material";
 
-const LIMIT = 6
+const LIMIT = 3
 
 export async function loader({ request, params }) {
     const searchParams = new URL(request.url).searchParams
     const currentPage = searchParams.get("page") || 1
+
     const categories = await getCategories()
     const category = searchParams.get("category")
-
-    if (category && categories.indexOf(category) === -1) {
-        throw {
-            message: "The selected does not exist!"
-        }
-    }
 
     const data = await getProductsByCategory(category, LIMIT, currentPage)
     const pages = {
@@ -31,14 +27,6 @@ export async function loader({ request, params }) {
     }
     const products = data.products
 
-    if (pages.total > 0 &&
-        (currentPage > pages.total || currentPage < 1)) {
-        // redirect to 404 or Error page
-        throw {
-            message: `The selected pagenumber (${currentPage}) does not exist`
-        }
-    }
-
     return { products, pages, categories }
 }
 
@@ -46,21 +34,40 @@ export default function Products() {
     const loaderData = useLoaderData()
     const [searchParams, setSearchParams] = useSearchParams()
 
-    const [pages, setPages] = useState(loaderData.pages)
     const [products, setProducts] = useState(loaderData.products)
+    const [pages, setPages] = useState(loaderData.pages)
 
     const categories = loaderData.categories
     const categoryFilter = searchParams.get("category")
+
+    // Errorhandling
+    if (pages.total > 0 &&
+        (pages.currentPage > pages.total || pages.currentPage < 1)) {
+        // redirect to 404 or Error page
+        throw {
+            message: `The specified pagenumber (${pages.currentPage}) does not exist`
+        }
+    }
+
+    if (categoryFilter && categories.indexOf(categoryFilter) === -1) {
+        throw {
+            message: "The specified category does not exist!"
+        }
+    }
 
     useEffect(() => {
         async function updateProducts() {
             const data = await getProductsByCategory(categoryFilter, LIMIT, pages.currentPage)
 
             setProducts(data.products)
+            setPages({
+                ...pages,
+                total: Math.ceil(data.total / LIMIT)
+            })
         }
 
         updateProducts()
-    }, [pages, categoryFilter])
+    }, [searchParams])
 
     const getStarIcons = function (rating) {
         const starIcons = []
@@ -103,33 +110,31 @@ export default function Products() {
             } else {
                 searchParams.set(key, value)
             }
-
             return searchParams
         })
     }
 
-    const categoryControls = categories.map(category => (<label
-        key={[category, "control"].join("-")}
-        className="checkboxControl" htmlFor={category}>
+    function handleCategoryChange(value) {
+        handleFilterChange("category", value)
+        handleFilterChange("page", null)
+    }
+
+    const categoryOptions = categories.map(category => (<label
+        key={[category, "option"].join("-")}
+        className="checkboxOption" htmlFor={category}>
         <input
             type="radio"
             name="categoryFilter"
             id={category}
             value={category}
             checked={categoryFilter === category}
-            onChange={() => handleFilterChange("category", category)} />
+            onChange={() => handleCategoryChange(category)} />
         {category.charAt(0).toUpperCase() + category.slice(1)}
     </label>
     ))
 
-    console.log(categoryControls)
-
     const setCurrentPage = function (newPage) {
-        setSearchParams(prevParams => {
-            prevParams.set("page", pages.currentPage)
-            return prevParams
-        })
-
+        handleFilterChange("page", newPage === 1 ? null : newPage)
 
         setPages(prevPages => ({
             ...prevPages,
@@ -143,7 +148,7 @@ export default function Products() {
                 <div className="filter">
                     <span className="filterTitle">Categories<ExpandMoreIcon /></span>
                     <div className="filterOptions">
-                        {categoryControls}
+                        {categoryOptions}
                     </div>
                 </div>
                 <div className="filter">
@@ -167,16 +172,6 @@ export default function Products() {
     )
 }
 
-function handleNavLinkClick(event) {
-    event.preventDefault()
-    console.log("lcick")
-
-    if (event.target.tagName === 'BUTTON') {
-        console.log("clicked buy")
-    } else {
-        console.log("navlink")
-    }
-}
 
 const ProductItem = function (props) {
     return (
