@@ -1,6 +1,7 @@
+import { Person } from '@mui/icons-material';
 import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
-import { NavLink } from 'react-router-dom';
+import { NavLink, Link } from 'react-router-dom';
 
 const Header = function () {
     return (
@@ -12,10 +13,15 @@ const Header = function () {
                 <NavLink className='navlink' to='about'>About</NavLink>
             </nav>
             <NavLink className="navlink-logo" to=""><h1 className='logo'>fakestore</h1></NavLink>
-            <div className='search'>
+            <div className='account'>
+                <Link to="/login">
+                    <Person />
+                </Link>
+            </div>
+            {/* <div className='search'>
                 <SearchIcon fontSize='large' />
                 <input type="text" placeholder='Search'></input>
-            </div>
+            </div> */}
         </header>
     )
 }

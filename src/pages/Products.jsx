@@ -153,7 +153,7 @@ export default function Products() {
     ))
 
     return (
-        <main className='products'>
+        <main className='vh-container products'>
             <div className="filters">
                 <div className={`filter ${categoryFilter && "active"}`}>
                     <span className="filterTitle">Categories<ExpandMoreIcon /></span>

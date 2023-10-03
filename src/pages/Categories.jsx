@@ -47,7 +47,7 @@ function Categories() {
     }
 
     return (
-        <main className="categories">
+        <main className="vh-container categories">
             <section className="intro">
                 <h1 className="secondary">Check our versatile sortiment @fakestore</h1>
             </section>

@@ -16,10 +16,12 @@ import ProductDescription from "./pages/ProductDetails/ProductDescription"
 import ProductSpecifications from './pages/ProductDetails/ProductSpecifications'
 import ProductReviews from './pages/ProductDetails/ProductReviews'
 import NotFound from './pages/NotFound'
+import Login from './pages/Login'
 
 const router = createBrowserRouter(createRoutesFromElements(
   <Route element={<SiteLayout />}>
     <Route index element={<Home />} />
+    <Route path="login" element={<Login />} />
     <Route path="categories" element={<Categories />} loader={categoriesLoader} />
     <Route path="products" element={<Products />} errorElement={<Error />} loader={productsLoader} />
     <Route path="products/:id" element={<ProductDetails />} loader={productDetailsLoader}>
