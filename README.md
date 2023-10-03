@@ -1,8 +1,8 @@
-# React + Vite
+# fakestore
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## About
+With the great courses about [React](https://react.dev/) and [React Router](https://reactrouter.com) taught at [scrimba](https://www.scrimba.com) by [Bob Ziroll](https://twitter.com/bobziroll) it was easy to dive into the world of the framework.
+After that I wanted to make my own experiences and started this project.
+It is solely a frontend project and for it to show some sleek data and pictures I am using [dummyJSON](https://github.com/Ovi/DummyJSON)
 
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+At one point I might decide to write my own backend for it.
