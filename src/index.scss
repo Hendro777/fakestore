@@ -213,6 +213,10 @@ input {
         }
     }
 
+    .error {
+        color: red;
+    }
+
     .categories {
         padding: 40px 65px;
         min-height: calc(100vh - 80px);
