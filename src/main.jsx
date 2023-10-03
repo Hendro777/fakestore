@@ -17,11 +17,14 @@ import ProductSpecifications from './pages/ProductDetails/ProductSpecifications'
 import ProductReviews from './pages/ProductDetails/ProductReviews'
 import NotFound from './pages/NotFound'
 import Login, { loader as loginLoader, action as loginAction } from './pages/Login'
+import Account, { loader as accountLoader } from './pages/Account/Account'
+import { requireAuth } from './auth'
 
 const router = createBrowserRouter(createRoutesFromElements(
   <Route element={<SiteLayout />}>
     <Route index element={<Home />} />
     <Route path="login" element={<Login />} loader={loginLoader} action={loginAction} />
+    <Route path="account" element={<Account />} loader={accountLoader} />
     <Route path="categories" element={<Categories />} loader={categoriesLoader} />
     <Route path="products" element={<Products />} errorElement={<Error />} loader={productsLoader} />
     <Route path="products/:id" element={<ProductDetails />} loader={productDetailsLoader}>

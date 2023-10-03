@@ -1,4 +1,4 @@
-import { Form, useActionData } from "react-router-dom"
+import { Form, redirect, useActionData } from "react-router-dom"
 import { loginUser } from "../auth"
 
 export async function action({ request }) {
@@ -10,7 +10,13 @@ export async function action({ request }) {
             // Error
             return data
         } else {
-            localStorage.setItem("user", JSON.stringify(data))
+            // Success
+            localStorage.setItem("currentUser", JSON.stringify(data))
+
+            const searchParams = new URL(request.url).searchParams
+            const redirectTo = searchParams.get("redirectTo")
+
+            throw redirect(redirectTo || "/")
         }
 
         return null

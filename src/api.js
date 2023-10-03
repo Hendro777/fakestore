@@ -1,5 +1,6 @@
 const apiBase = "https://dummyjson.com"
 
+// Categories
 export async function getCategories() {
   const apiEndpoint = "https://dummyjson.com/products/categories/"
   const response = await fetch(apiEndpoint)
@@ -9,6 +10,7 @@ export async function getCategories() {
   return data
 }
 
+// Products
 export async function getProductsByCategory(category, limit, currentPage) {
   if (!limit) {
     throw { message: "getProducts: limit must be set!" }
@@ -45,6 +47,18 @@ export async function getProductById(id) {
   return data
 }
 
+// Users
+export async function getUserById(id) {
+  const apiSubpath = `/users/${id}`
+  const apiEndpoint = new URL(apiSubpath, apiBase)
+  const response = await fetch(apiEndpoint.href)
+  checkResponseForError(response)
+  const data = response.json()
+
+  return data
+}
+
+// HTTP-Error handling
 export function checkResponseForError(response) {
   if (!response.ok) {
     throw {
