@@ -18,7 +18,7 @@ import ProductReviews from './pages/ProductDetails/ProductReviews'
 import NotFound from './pages/NotFound'
 import Login, { loader as loginLoader, action as loginAction } from './pages/Login'
 import Account, { loader as accountLoader } from './pages/Account/Account'
-import { requireAuth } from './auth'
+import { requireAuth } from './utils/auth'
 
 const router = createBrowserRouter(createRoutesFromElements(
   <Route element={<SiteLayout />}>

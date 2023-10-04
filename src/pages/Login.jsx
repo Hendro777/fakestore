@@ -1,5 +1,5 @@
 import { Form, redirect, useActionData } from "react-router-dom"
-import { loginUser } from "../auth"
+import { loginUser } from "../utils/auth"
 
 export async function action({ request }) {
     const formData = await request.formData()

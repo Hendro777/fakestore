@@ -8,8 +8,8 @@ import CloseIcon from '@mui/icons-material/Close';
 
 import PageNavigation from "../components/PageNavigation";
 import { NavLink, useLoaderData, useSearchParams } from "react-router-dom";
-import { getCategories, getProductsByCategory } from "../api";
-import { firstLetterToUpperCase } from "../util";
+import { getCategories, getProductsByCategory } from "../utils/api";
+import { firstLetterToUpperCase } from "../utils/util";
 
 const LIMIT = 12
 

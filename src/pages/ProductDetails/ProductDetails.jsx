@@ -7,7 +7,7 @@ import UnfoldMoreIcon from '@mui/icons-material/UnfoldMore';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import ShareIcon from '@mui/icons-material/Share';
-import { getProductById } from "../../api";
+import { getProductById } from "/src/utils/api";
  
 export async function loader({ params }) {
     return getProductById(params.id)

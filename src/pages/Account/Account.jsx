@@ -1,6 +1,6 @@
 import { Outlet, useLoaderData } from "react-router-dom"
-import { requireAuth } from "../../auth"
-import { getUserById } from "../../api"
+import { requireAuth } from "/src/utils/auth"
+import { getUserById } from "/src/utils/api"
 
 export async function loader({ request }) {
     await requireAuth(request)

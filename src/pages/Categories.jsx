@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { useLoaderData, Link } from "react-router-dom"
-import { getCategories } from "../api"
-import { firstLetterToUpperCase } from "../util"
+import { getCategories } from "../utils/api"
+import { firstLetterToUpperCase } from "../utils/util"
 
 export async function loader() {
     return getCategories()
