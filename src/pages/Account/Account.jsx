@@ -1,19 +1,14 @@
-import { Outlet, useLoaderData } from "react-router-dom"
+import { Outlet, useLoaderData, useNavigate } from "react-router-dom"
 import { requireAuth } from "/src/utils/auth"
 import { getUserById } from "/src/utils/api"
-
-export async function loader({ request }) {
-    await requireAuth(request)
-
-    const loggedInUser = JSON.parse(localStorage.getItem("currentUser"))
-    const user = await getUserById(loggedInUser.id)
-
-
-    return user
-}
+import { useAuthContext } from "../../hooks/useAuthContext"
 
 export default function Account() {
-    const user = useLoaderData()
+    const navigate = useNavigate()
+    const { user, isAuthenticated } = useAuthContext()
+    if(!isAuthenticated) {
+        return navigate("/login?message=You must login first.&redirectTo=/account")
+    }
 
     return (
         <div className="vh-container account">
