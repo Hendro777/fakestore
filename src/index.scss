@@ -151,9 +151,23 @@ input {
 
         .account {
             justify-self: end;
-
+            
             .MuiSvgIcon-root {
                 color: white;
+            }
+
+            a.authenticated {
+                display: block;
+                position: relative;
+                border-radius: 50%;
+                background-color: white;
+                width: 35px;
+                height: 35px;
+
+                img {
+                    width: 100%;
+                    object-fit: contain;
+                }
             }
         }
 
@@ -370,7 +384,8 @@ input {
                     gap: .5em;
                     color: $primary-color-extra-light;
 
-                    &:hover, &:focus-within {
+                    &:hover,
+                    &:focus-within {
                         color: $secondary-color-extra-light;
 
                         input {

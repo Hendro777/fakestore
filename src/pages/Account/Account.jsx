@@ -8,7 +8,6 @@ export async function loader({ request }) {
     const loggedInUser = JSON.parse(localStorage.getItem("currentUser"))
     const user = await getUserById(loggedInUser.id)
 
-
     return user
 }
 

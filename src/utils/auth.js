@@ -2,7 +2,7 @@ import { redirect } from "react-router-dom"
 import { checkResponseForError } from "./api"
 
 export async function requireAuth(request) {
-    if (!(await isLoggedIn())) {
+    if (!(await isAuthenticated())) {
         const loginMessage = "You must log in first."
         const pathname = new URL(request.url).pathname
 
@@ -11,10 +11,6 @@ export async function requireAuth(request) {
     }
 
     return null
-}
-
-export async function isLoggedIn() {
-    return JSON.parse(localStorage.getItem("currentUser")) !== null
 }
 
 export async function loginUser(username, password) {
@@ -32,4 +28,16 @@ export async function loginUser(username, password) {
     const data = response.json()
 
     return data
+}
+
+export async function logoutUser() {
+    localStorage.removeItem("currentUser")
+}
+
+export function isAuthenticated() {
+    return JSON.parse(localStorage.getItem("currentUser")) !== null
+}
+
+export function getCurrentUser() {
+    return JSON.parse(localStorage.getItem("currentUser"))
 }

@@ -1,8 +1,9 @@
 import { Form, redirect, useActionData } from "react-router-dom"
-import { loginUser } from "../utils/auth"
+import { isAuthenticated, loginUser } from "../utils/auth"
 
 export async function action({ request }) {
     const formData = await request.formData()
+    
     try {
         const data = await loginUser(formData.get("username"), formData.get("password"))
 
@@ -16,7 +17,7 @@ export async function action({ request }) {
             const searchParams = new URL(request.url).searchParams
             const redirectTo = searchParams.get("redirectTo")
 
-            throw redirect(redirectTo || "/")
+            throw redirect(redirectTo || "/account")
         }
 
         return null
@@ -26,6 +27,9 @@ export async function action({ request }) {
 }
 
 export async function loader() {
+    if (isAuthenticated()) {
+        throw redirect("/account")
+    }
     return null
 }
 
