@@ -17,7 +17,7 @@ const Header = function () {
                 <NavLink className='navlink' to='about'>About</NavLink>
             </nav>
             <NavLink className="navlink-logo" to=""><h1 className='logo'>fakestore</h1></NavLink>
-            <div className='account'>
+            <div className='btn-account'>
                 {isAuthenticated()
                     ? <Link className='authenticated' to="/account">
                         <img src={user.image} />

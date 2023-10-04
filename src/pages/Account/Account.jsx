@@ -1,4 +1,4 @@
-import { Outlet, useLoaderData } from "react-router-dom"
+import { NavLink, Outlet, useLoaderData } from "react-router-dom"
 import { requireAuth } from "/src/utils/auth"
 import { getUserById } from "/src/utils/api"
 
@@ -13,13 +13,27 @@ export async function loader({ request }) {
 
 export default function Account() {
     const user = useLoaderData()
+    console.log(user)
 
     return (
-        <div className="vh-container account">
-            <h1>Account</h1>
-            {JSON.stringify(user)}
-            <nav className="navigation"></nav>
-            <Outlet></Outlet>
-        </div>
+        <main className="vh-container account">
+            <div className="sidebar">
+                <h3>Customer Center</h3>
+                <span className="userInfo">
+                    <span>{user.username}</span>
+                    <span>{user.firstName} {user.lastName}</span>
+                    <span>{user.email}</span>
+                </span>
+                <nav className="navigation">
+                    <NavLink to="">Dashboard</NavLink>
+                    <NavLink to="orders">My orders</NavLink>
+                    <NavLink to="wishlists">Wishlists</NavLink>
+                    <NavLink to="adresses">Adresses</NavLink>
+                    <NavLink to="edit">Edit your account</NavLink>
+                    <NavLink to="security">Security</NavLink>
+                </nav>
+            </div>
+            <Outlet context={user}></Outlet>
+        </main>
     )
 }

@@ -1,9 +1,10 @@
-import { Form, redirect, useActionData } from "react-router-dom"
+import { Form, redirect, useActionData, useLoaderData } from "react-router-dom"
 import { isAuthenticated, loginUser } from "../utils/auth"
 
 export async function action({ request }) {
     const formData = await request.formData()
-    
+
+
     try {
         const data = await loginUser(formData.get("username"), formData.get("password"))
 
@@ -26,20 +27,26 @@ export async function action({ request }) {
     }
 }
 
-export async function loader() {
+export async function loader({ request }) {
     if (isAuthenticated()) {
         throw redirect("/account")
     }
-    return null
+
+    const searchParams = new URL(request.url).searchParams
+    const loginMessage = searchParams.get("message")
+
+    return loginMessage
 }
 
 export default function Login() {
+    const loginMessage = useLoaderData()
     const error = useActionData()
 
     return (
         <div className="vh-container login">
             <Form method="post" className="loginForm">
                 <h2 className="headline">Login</h2>
+                {loginMessage && <div className="message">{loginMessage}</div>}
                 {error && <div className="error">{error.message}</div>}
                 <div className="inputs">
                     <label htmlFor="username">
