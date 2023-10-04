@@ -6,14 +6,47 @@ import styled from 'styled-components';
 
 // Style
 const pageNavigationStyle = {
-    display: "flex",
-    flexDireciton: "row",
+    display: 'grid',
+    gridTemplateColumns: "1fr 1fr 1fr",
     alignItems: 'center',
     gap: ".75em",
 
     '&:hover': {
         backgroundColor: "red",
+    },
+
+    'div': {
+        
     }
+}
+
+const leftNavStyle = {
+    justifySelf: 'end',
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: ".5em",
+}
+
+const buttonPagesStyle = {
+    gridColumn: '2 / 3',
+    justifySelf: 'center',
+
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: ".75em",
+}
+
+const rightNavStyle = {
+    justifySelf: 'start',
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: ".5em",
 }
 
 const muiIconSX = {
@@ -72,28 +105,28 @@ const PageNavigation = function (props) {
             {
                 currentPageNum > 1 &&
                 (
-                    <>
+                    <div style={leftNavStyle}>
                         <KeyboardDoubleArrowSharpLeftIcon
                             sx={muiIconSX}
                             onClick={() => props.setCurrentPage(1)} />
                         <ArrowBackSharpIcon
                             sx={muiIconSX}
                             onClick={() => props.setCurrentPage(currentPageNum - 1)} />
-                    </>
+                    </div>
                 )
             }
-            {PageButtonItems()}
+            <div className='btn-pages' style={buttonPagesStyle}>{PageButtonItems()}</div>
             {
                 currentPageNum < props.totalPages &&
                 (
-                    <>
+                    <div style={rightNavStyle}>
                         <ArrowForwardSharpIcon
                             sx={muiIconSX}
                             onClick={() => props.setCurrentPage(currentPageNum + 1)} />
                         <KeyboardDoubleArrowRightSharpIcon
                             sx={muiIconSX}
                             onClick={() => props.setCurrentPage(props.totalPages)} />
-                    </>
+                    </div>
                 )
             }
 
