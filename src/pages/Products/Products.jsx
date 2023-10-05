@@ -6,12 +6,41 @@ import StarHalfIcon from '@mui/icons-material/StarHalf';
 import StarIcon from '@mui/icons-material/Star';
 import CloseIcon from '@mui/icons-material/Close';
 
-import PageNavigation from "../components/PageNavigation";
-import { NavLink, useLoaderData, useSearchParams } from "react-router-dom";
-import { getCategories, getProductsByCategory } from "../utils/api";
-import { firstLetterToUpperCase } from "../utils/util";
+import ProductItem from "../../pages/Products/ProductItem";
+import PageNavigation from "../../components/PageNavigation";
+import { useLoaderData, useSearchParams } from "react-router-dom";
+import { getCategories, getProductsByCategory } from "../../utils/api";
+import { firstLetterToUpperCase } from "../../utils/util";
 
 const LIMIT = 12
+
+// Display stars based on rating
+export const getStarIcons = function (rating) {
+    const starIcons = []
+
+    const float = parseFloat(rating)
+
+    const intPrecision = parseInt(float, 10)
+    const floatPrecision = float - parseInt(float, 10)
+
+    for (let i = 0; i < intPrecision; i++) {
+        starIcons.push(<StarIcon />)
+    }
+
+    if (floatPrecision < .25) {
+        starIcons.push(<StarOutlineIcon />)
+    } else if (floatPrecision >= .75) {
+        starIcons.push(<StarIcon />)
+    } else {
+        starIcons.push(<StarHalfIcon />)
+    }
+
+    for (let i = starIcons.length; i < 5; i++) {
+        starIcons.push(<StarOutlineIcon />)
+    }
+
+    return starIcons
+}
 
 export async function loader({ request, params }) {
     const searchParams = new URL(request.url).searchParams
@@ -110,34 +139,6 @@ export default function Products() {
         }))
     }
 
-    // Display stars based on rating
-    const getStarIcons = function (rating) {
-        const starIcons = []
-
-        const float = parseFloat(rating)
-
-        const intPrecision = parseInt(float, 10)
-        const floatPrecision = float - parseInt(float, 10)
-
-        for (let i = 0; i < intPrecision; i++) {
-            starIcons.push(<StarIcon />)
-        }
-
-        if (floatPrecision < .25) {
-            starIcons.push(<StarOutlineIcon />)
-        } else if (floatPrecision >= .75) {
-            starIcons.push(<StarIcon />)
-        } else {
-            starIcons.push(<StarHalfIcon />)
-        }
-
-        for (let i = starIcons.length; i < 5; i++) {
-            starIcons.push(<StarOutlineIcon />)
-        }
-
-        return starIcons
-    }
-
     const categoryOptions = categories.map(category => (<label
         key={[category, "option"].join("-")}
         className="checkboxOption" htmlFor={category}>
@@ -188,44 +189,5 @@ export default function Products() {
                     offset={2} />
             }
         </main >
-    )
-}
-
-
-const ProductItem = function (props) {
-    return (
-        <div className="product">
-            <NavLink
-                to={props.item.id.toString()}
-                className="navlink">
-                <div className="thumbnail-container">
-                    <img className='thumbnail' src={props.item.thumbnail} />
-                </div>
-                <div className="info">
-                    <h3 className="title">{props.item.title}</h3>
-                    <p className="brand">{props.item.brand}</p>
-                    <div className="product-rating">
-                        {props.getStarIcons()}
-                        <span className="rating-value">{props.item.rating.toFixed(1)}</span>
-                    </div>
-                    <div className="discount">
-                        Save {Number(props.item.discountPercentage).toFixed(1)}%
-                    </div>
-                    <div className="pricing">
-                        <span className="price">{
-                            Number(props.item.price * ((100 - props.item.discountPercentage) / 100)).toFixed(0)
-                        }€</span>
-                        <span className="rrp">RRP: <span className="value">{props.item.price}€</span></span>
-                    </div>
-                    {
-                        props.item.stock <= 0 ?
-                            <span className="stock out-of-stock">out of stock</span> :
-                            <span className="stock in-stock">in stock</span>
-                    }
-                </div>
-            </NavLink >
-            {props.item.stock > 0 &&
-                <button onClick={(event) => event.preventDefault()} type="button" className="buy-button ">Add to cart</button>}
-        </div >
     )
 }

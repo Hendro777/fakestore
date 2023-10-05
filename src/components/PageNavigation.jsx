@@ -10,10 +10,8 @@ const pageNavigationStyle = {
     gridTemplateColumns: "1fr 1fr 1fr",
     alignItems: 'center',
     gap: ".75em",
+    color: 'white',
 
-    '&:hover': {
-        backgroundColor: "red",
-    },
 
     'div': {
         
@@ -56,7 +54,7 @@ const muiIconSX = {
     transition: 'all 0.3s',
 
     '&:hover': {
-        color: 'rgb(163, 118, 217)',
+        color: 'rgb(212, 184, 245)',
         height: '36px',
         width: '36px',
     }
