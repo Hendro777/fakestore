@@ -8,6 +8,7 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import ShareIcon from '@mui/icons-material/Share';
 import { getProductById } from "/src/utils/api";
+import { useShopContext } from "../../hooks/useShopContext";
  
 export async function loader({ params }) {
     return getProductById(params.id)
@@ -15,9 +16,11 @@ export async function loader({ params }) {
 
 function ProductDetails() {
     const product = useLoaderData()
+    const shopContext = useShopContext()
 
     const [deliveryDate, setDeliveryDate] = useState()
     const [displayedImage, setDisplayedImage] = useState()
+    const [quantity, setQuantity] = useState(1)
 
     useEffect(() => {
         let date = new Date(Date.now())
@@ -45,6 +48,10 @@ function ProductDetails() {
         }
 
         return imageItems
+    }
+
+    function addToCart() {
+        shopContext.addToCart(product.id, quantity)
     }
 
     return (
@@ -81,23 +88,24 @@ function ProductDetails() {
                             <span className="delivery"><span className="bold">Free delivery</span> until {deliveryDate?.toLocaleDateString('en-EN')}</span>
                             <form className="buy-form">
                                 <div className="quantity-container">
-                                    <label for="quantity-select">{1}</label>
-                                    <select className="amount-select">
-                                        <option value="1">1</option>
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
-                                        <option value="4">4</option>
-                                        <option value="5">5</option>
-                                        <option value="6">6</option>
-                                        <option value="7">7</option>
-                                        <option value="8">8</option>
-                                        <option value="9">9</option>
-                                        <option value="10">10</option>
+                                    <label htmlFor="quantity-select">{quantity}</label>
+                                    <select type="number" value={quantity}
+                                    onChange={(e) => setQuantity(e.target.value)}className="amount-select">
+                                        <option value={1}>1</option>
+                                        <option value={2}>2</option>
+                                        <option value={3}>3</option>
+                                        <option value={4}>4</option>
+                                        <option value={5}>5</option>
+                                        <option value={6}>6</option>
+                                        <option value={7}>7</option>
+                                        <option value={8}>8</option>
+                                        <option value={9}>9</option>
+                                        <option value={10}>10</option>
                                     </select>
                                     <UnfoldMoreIcon
                                         className="dropdown-icon" />
                                 </div>
-                                <button type="button" className="buy-button">Add to cart</button>
+                                <button type="button" className="btn-primary" onClick={addToCart}>Add to cart</button>
                             </form>
                             <div className="actions">
                                 <span className="action remember"><span className="icon"><FavoriteBorderIcon /></span>Remember</span>
