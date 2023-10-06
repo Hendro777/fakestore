@@ -31,8 +31,6 @@ export async function getProductsByCategory(category, limit, currentPage) {
       .set("skip", limit * (currentPage - 1))
   }
 
-  console.log(apiEndpoint.href)
-
   const response = await axios.get(apiEndpoint.href)
   const data = await response.data
 

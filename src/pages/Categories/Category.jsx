@@ -3,18 +3,14 @@ import { firstLetterToUpperCase } from "../../utils/util"
 import { Link } from "react-router-dom"
 
 const Category = function (props) {
-    useEffect(() => {
-        props.loadThumbnail()
-    }, [])
-
     return (
-        <Link to={`/products?category=${props.item.title}`} className="category">
+        <Link to={`/products?category=${props.title}`} className="category">
             <div className="thumbnail-container">
-                <img className='thumbnail' src={props.item.thumbnail} />
+                <img className='thumbnail' src={props.thumbnail} />
             </div>
             <div className="info">
-                <h3>{firstLetterToUpperCase(props.item.title)}</h3>
-                <p>Checkout our latest {props.item.title} products!</p>
+                <h3>{firstLetterToUpperCase(props.title)}</h3>
+                <p>Checkout our latest {props.title} products!</p>
             </div>
         </Link>
     )

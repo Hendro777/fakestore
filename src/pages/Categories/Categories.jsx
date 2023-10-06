@@ -1,62 +1,56 @@
-import { useEffect, useState } from "react"
-import { useLoaderData, Link } from "react-router-dom"
-import { getCategories } from "../../utils/api"
-import { firstLetterToUpperCase } from "../../utils/util"
-import Category from "./Category"
-
-export async function loader() {
-    return getCategories()
-}
+import { useEffect, useState } from "react";
+import { useLoaderData, Link } from "react-router-dom";
+import { getCategories } from "../../utils/api";
+import { firstLetterToUpperCase } from "../../utils/util";
+import Category from "./Category";
+import { useQuery } from "@tanstack/react-query";
+import { useQueries } from "@tanstack/react-query";
+import axios from "axios";
 
 function Categories() {
-    const [categories, setCategories] = useState(useLoaderData().map(category => (
-        {
-            title: category,
-            thumbnail: null,
+  const categories = useQuery({
+    queryKey: ["categories"],
+    queryFn: () => getCategories(),
+  });
+
+  const categoryProducts = useQueries({
+    queries: categories.data
+      ? categories.data.map((category) => {
+        return {
+            queryKey: ["categories", category],
+            queryFn: () =>
+              axios
+                .get(
+                  `https://dummyjson.com/products/category/${category}?limit=1`
+                )
+                .then((res) => res.data)
+                .then((data) => data.products[0]),
         }
-    )))
-
-    const categoryItems = categories.map(category => (
-        <Category
-            key={category.title}
-            item={category}
-            loadThumbnail={() => loadThumbnail(category.title)} />
-    ))
-
-    async function loadThumbnail(categoryTitle) {
-        const apiEndpoint = `https://dummyjson.com/products/category/${categoryTitle}`
-        const response = await fetch(apiEndpoint)
-        const data = await response.json()
-        const products = data.products
-
-        // let rnd = Math.floor(Math.random() * products.length)
-        let rnd = 0
-        const thumbnail = products[rnd].thumbnail
-
-        setCategories(prevCategories => {
-            const newCategories = prevCategories.map(category => {
-                return category.title === categoryTitle ?
-                    {
-                        ...category,
-                        thumbnail: thumbnail
-                    } :
-                    category
-            })
-
-            return newCategories
-        })
+      })
+      : []
     }
+  );
 
-    return (
-        <main className="vh-container categories">
-            <section className="intro">
-                <h1 className="secondary">Check our versatile sortiment @fakestore</h1>
-            </section>
-            <section className="categoryItems">
-                {categoryItems}
-            </section>
-        </main>
-    )
+  if(categories.isLoading || categoryProducts.some(p => p.isLoading)) {
+    return <h1>Loading... </h1>
+  }
+
+  const categoryItems =  categoryProducts.map((prod) => (
+    <Category
+      key={prod.data.category}
+      title={prod.data.category}
+      thumbnail={prod.data.thumbnail}
+    />
+  ));
+
+  return (
+    <main className="vh-container categories">
+      <section className="intro">
+        <h1 className="secondary">Check our versatile sortiment @fakestore</h1>
+      </section>
+      <section className="categoryItems">{categoryItems}</section>
+    </main>
+  );
 }
 
-export default Categories
+export default Categories;
