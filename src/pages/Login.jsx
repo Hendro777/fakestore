@@ -52,6 +52,7 @@ export default function Login() {
                     <label htmlFor="username">
                         Username
                         <input
+                            defaultValue={"atuny0"}
                             type="text"
                             name="username"
                             placeholder="Username *" />
@@ -60,6 +61,7 @@ export default function Login() {
                     <label htmlFor="password">
                         Password
                         <input
+                            defaultValue={"9uQFF1Lh"}
                             type="password"
                             name="password"
                             placeholder="Password *" />

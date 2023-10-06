@@ -40,7 +40,7 @@ const Header = function () {
             <img src={user.image} />
           </Link>
         ) : (
-          <Link className="btn-link btn-account account" to="/login">
+          <Link className="btn-link btn-account" to="/login">
             <Person />
           </Link>
         )}

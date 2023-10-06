@@ -1,9 +1,16 @@
 import { useContext } from "react"
-import { useOutlet, useOutletContext } from "react-router-dom"
+import { useNavigate, useOutlet, useOutletContext } from "react-router-dom"
+import { logoutUser } from "../../utils/auth"
 
 export default function AccountDashboard() {
     const user = useOutletContext()
     const userInfoArr = [user.firstName, user.lastName, user.email]
+    const navigate = useNavigate()
+
+    function logout() {
+        logoutUser()
+        navigate('/')
+    }
 
     const userInfoItems = userInfoArr.map((info, index) => {
         const key = Object.keys(user).find(key => user[key] === info)
@@ -23,8 +30,9 @@ export default function AccountDashboard() {
                     <img src={user.image} /></div>
                 <div className="userInfo">
                     {userInfoItems}
+                    <button className="btn-primary logout" onClick={logout}>Logout</button>
                 </div>
-            </div>
+            </div> 
         </section>
     )
 }
