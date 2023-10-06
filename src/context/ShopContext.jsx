@@ -1,9 +1,15 @@
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 
 export const ShopContext = createContext(null);
 
 export function ShopContextProvider({ children }) {
-  const [cartItems, setCartItems] = useState(new Map())
+  const [cartItems, setCartItems] = localStorage.getItem("cart")
+    ? useState(new Map(JSON.parse(localStorage.getItem("cart"))))
+    : useState(new Map())
+
+  useEffect(() => {
+    localStorage.setItem("cart", JSON.stringify([...cartItems]))
+  }, [cartItems])
 
   const addToCart = (productId, quantity) => {
     quantity = Number(quantity)
@@ -13,7 +19,7 @@ export function ShopContextProvider({ children }) {
   }
 
   const setItemQuantity = (productId, quantity) => {
-    quantity = Number(quantity)
+    quantity = Math.min(Number(quantity), 10)
 
     setCartItems(prevCartItems => {
       const newCartItems = new Map(prevCartItems)

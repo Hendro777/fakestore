@@ -38,7 +38,7 @@ export default function ProductItem(props) {
                     </div>
                 </NavLink >
                 {props.item.stock > 0 &&
-                    <button onClick={() => addToCart(props.item.id, 1)} type="button" className="btn-addToCart">Add to cart</button>}
+                    <button onClick={() => addToCart(props.item.id, 1)} type="button" className="btn-secondary">Add to cart</button>}
             </div >
         )
     }

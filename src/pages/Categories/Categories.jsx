@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react"
 import { useLoaderData, Link } from "react-router-dom"
-import { getCategories } from "../utils/api"
-import { firstLetterToUpperCase } from "../utils/util"
+import { getCategories } from "../../utils/api"
+import { firstLetterToUpperCase } from "../../utils/util"
+import Category from "./Category"
 
 export async function loader() {
     return getCategories()
@@ -55,24 +56,6 @@ function Categories() {
                 {categoryItems}
             </section>
         </main>
-    )
-}
-
-const Category = function (props) {
-    useEffect(() => {
-        props.loadThumbnail()
-    }, [])
-
-    return (
-        <Link to={`/products?category=${props.item.title}`} className="category">
-            <div className="thumbnail-container">
-                <img className='thumbnail' src={props.item.thumbnail} />
-            </div>
-            <div className="info">
-                <h3>{firstLetterToUpperCase(props.item.title)}</h3>
-                <p>Checkout our latest {props.item.title} products!</p>
-            </div>
-        </Link>
     )
 }
 
