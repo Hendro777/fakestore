@@ -340,6 +340,7 @@ a {
     color: $error-contrast-text;
     background: $error-main;
 
+    // eins vor allen anderen Elementen
     z-index: 1;
     background-image: linear-gradient(
       to right,
@@ -355,6 +356,7 @@ a {
       left: 0;
       right: -5px;
       bottom: -5px;
+      // hinter container
       z-index: -1;
       border-radius: 0.5em;
 
@@ -364,7 +366,7 @@ a {
         $secondary-color 80%,
         $secondary-color-light 100%
       );
-      filter: blur(5px);
+      filter: blur(5px); // entspricht blur bei box-shadow
     }
 
     .message {
@@ -824,7 +826,9 @@ a {
       display: flex;
       flex-direction: column;
       gap: 1em;
-      place-items: center;
+      flex-grow: 1;
+      align-items: center;
+      justify-content: center;
     }
   }
 }
