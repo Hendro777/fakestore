@@ -105,7 +105,7 @@ function ProductDetails() {
                                     <UnfoldMoreIcon
                                         className="dropdown-icon" />
                                 </div>
-                                <button type="button" className="btn-addToCart" onClick={addToCart}>Add to cart</button>
+                                <button type="button" className="btn-primary" onClick={addToCart}>Add to cart</button>
                             </form>
                             <div className="actions">
                                 <span className="action remember"><span className="icon"><FavoriteBorderIcon /></span>Remember</span>
