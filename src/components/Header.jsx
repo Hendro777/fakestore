@@ -12,44 +12,50 @@ const Header = function () {
 
   return (
     <header className="header">
-      <nav className="nav">
-        <MenuIcon fontSize="large" />
-        <NavLink className="navlink" to="categories">
-          All Categories
+      <div className="container header__container row">
+        <div className="burger-menu col">
+          <MenuIcon fontSize="large" />
+        </div>
+        <nav className="nav nav--primary col">
+          <NavLink className="nav__link" to="categories">
+            All Categories
+          </NavLink>
+          <NavLink className="nav__link" to="deals">
+            Deals
+          </NavLink>
+          <NavLink className="nav__link" to="about">
+            About
+          </NavLink>
+        </nav>
+        <NavLink className="logo col" to="">
+          <h1 className="logo__title">fakestore</h1>
         </NavLink>
-        <NavLink className="navlink" to="deals">
-          Deals
-        </NavLink>
-        <NavLink className="navlink" to="about">
-          About
-        </NavLink>
-      </nav>
-      <NavLink className="navlink-logo" to="">
-        <h1 className="logo">fakestore</h1>
-      </NavLink>
-      <div className="iconMenu">
-        <Link className="className=btn-link btn-cart" to="/cart">
-          {cartItems.size > 0 && <span className="badge">{cartItems.size}</span>}
-          <ShoppingBagOutlined fontSize="large" />
-        </Link>
-        {isAuthenticated() ? (
-          <Link
-            className="className=btn-link authenticated btn-account"
-            to="/account"
-          >
-            <img src={user.image} />
+        <nav className="nav nav--secondary col">
+          <Link className="className=btn-link btn-cart" to="/cart">
+            {cartItems.size > 0 && (
+              <span className="badge">{cartItems.size}</span>
+            )}
+            <ShoppingBagOutlined fontSize="large" />
           </Link>
-        ) : (
-          <Link className="btn-link btn-account" to="/login">
-            <Person />
-          </Link>
-        )}
-      </div>
+          {isAuthenticated() ? (
+            <Link
+              className="className=btn-link authenticated btn-account"
+              to="/account"
+            >
+              <img src={user.image} />
+            </Link>
+          ) : (
+            <Link className="btn-link btn-account" to="/login">
+              <Person />
+            </Link>
+          )}
+        </nav>
 
-      {/* <div className='search'>
+        {/* <div className='search'>
                 <SearchIcon fontSize='large' />
                 <input type="text" placeholder='Search'></input>
             </div> */}
+      </div>
     </header>
   );
 };

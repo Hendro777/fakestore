@@ -59,14 +59,14 @@ export default function Cart() {
     <main className="vh-container cart">
       {cartItems.size > 0 && (
         <div className="container">
-          <div className="cartProducts">{productItems}</div>
-          <div className="cartSummary">
+          <div className="cart-products">{productItems}</div>
+          <div className="cart-summary">
             <h2>Subtotal</h2>
-            <p className="rrp">
+            <p className="cart-summary__rrp">
               <span>{total}</span>€
             </p>
-            <p className="total">{discountedTotal.toFixed(0)}€</p>
-            <button type="button" className="btn-primary checkout">
+            <p className="cart-summary__total">{discountedTotal.toFixed(0)}€</p>
+            <button type="button" className="btn btn--primary cart-summary__checkout">
               Checkout
             </button>
           </div>

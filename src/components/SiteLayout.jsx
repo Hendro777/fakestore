@@ -4,7 +4,7 @@ import Footer from "./Footer"
 
 const SiteLayout = function () {
     return (
-        <div className="container">
+        <div className="site-container">
             <Header />
             <Outlet />
             <Footer />

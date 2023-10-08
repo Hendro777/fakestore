@@ -16,7 +16,7 @@ function Categories() {
   const categoryProducts = useQueries({
     queries: categories.data
       ? categories.data.map((category) => {
-        return {
+          return {
             queryKey: ["categories", category],
             queryFn: () =>
               axios
@@ -25,17 +25,16 @@ function Categories() {
                 )
                 .then((res) => res.data)
                 .then((data) => data.products[0]),
-        }
-      })
-      : []
-    }
-  );
+          };
+        })
+      : [],
+  });
 
-  if(categories.isLoading || categoryProducts.some(p => p.isLoading)) {
-    return <h1>Loading... </h1>
+  if (categories.isLoading || categoryProducts.some((p) => p.isLoading)) {
+    return <h1>Loading... </h1>;
   }
 
-  const categoryItems =  categoryProducts.map((prod) => (
+  const categoryItems = categoryProducts.map((prod) => (
     <Category
       key={prod.data.category}
       title={prod.data.category}
@@ -44,11 +43,15 @@ function Categories() {
   ));
 
   return (
-    <main className="vh-container categories">
-      <section className="intro">
-        <h1 className="secondary">Check our versatile sortiment @fakestore</h1>
-      </section>
-      <section className="categoryItems">{categoryItems}</section>
+    <main className="vh-container categories section--dark">
+      <div className="container">
+        <section className="categories__intro">
+          <h1 className="secondary">
+            Check our versatile sortiment @fakestore
+          </h1>
+        </section>
+        <section className="categories__items">{categoryItems}</section>
+      </div>
     </main>
   );
 }

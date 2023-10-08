@@ -14,34 +14,6 @@ import { firstLetterToUpperCase } from "../../utils/util";
 
 const LIMIT = 12
 
-// Display stars based on rating
-export const getStarIcons = function (rating) {
-    const starIcons = []
-
-    const float = parseFloat(rating)
-
-    const intPrecision = parseInt(float, 10)
-    const floatPrecision = float - parseInt(float, 10)
-
-    for (let i = 0; i < intPrecision; i++) {
-        starIcons.push(<StarIcon />)
-    }
-
-    if (floatPrecision < .25) {
-        starIcons.push(<StarOutlineIcon />)
-    } else if (floatPrecision >= .75) {
-        starIcons.push(<StarIcon />)
-    } else {
-        starIcons.push(<StarHalfIcon />)
-    }
-
-    for (let i = starIcons.length; i < 5; i++) {
-        starIcons.push(<StarOutlineIcon />)
-    }
-
-    return starIcons
-}
-
 export async function loader({ request, params }) {
     const searchParams = new URL(request.url).searchParams
     const currentPage = searchParams.get("page") || 1
@@ -154,40 +126,42 @@ export default function Products() {
     ))
 
     return (
-        <main className='vh-container products'>
-            <div className="filters">
-                <div className={`filter ${categoryFilter && "active"}`}>
-                    <span className="filterTitle">Categories<ExpandMoreIcon /></span>
-                    <div className="filterOptions">
-                        <span className="clear-filter " onClick={() => {
-                            if (!categoryFilter) { return }
-                            handleCategoryChange(null)
-                        }}>Clear categories</span>
-                        <div className="options">{categoryOptions}</div>
+        <main className='vh-container section--dark'>
+            <div className="container products">
+                <div className="filters">
+                    <div className={`filter ${categoryFilter && "active"}`}>
+                        <span className="filterTitle">Categories<ExpandMoreIcon /></span>
+                        <div className="filterOptions">
+                            <span className="clear-filter " onClick={() => {
+                                if (!categoryFilter) { return }
+                                handleCategoryChange(null)
+                            }}>Clear categories</span>
+                            <div className="options">{categoryOptions}</div>
+                        </div>
                     </div>
-                </div>
-                <div className="filter">
-                    <span className="filterTitle">Sort by<ExpandMoreIcon /></span>
-                    <div className="filterOptions not-implemented">
+                    <div className="filter">
+                        <span className="filterTitle">Sort by<ExpandMoreIcon /></span>
+                        <div className="filterOptions not-implemented">
+                        </div>
                     </div>
-                </div>
-                <div className="filter">
-                    <span className="filterTitle">Price Range<ExpandMoreIcon /></span>
-                    <div className="filterOptions not-implemented">
+                    <div className="filter">
+                        <span className="filterTitle">Price Range<ExpandMoreIcon /></span>
+                        <div className="filterOptions not-implemented">
+                        </div>
                     </div>
+                    {categoryFilter && <span className="clear-all" onClick={() => setSearchParams({})}>Reset filters</span>}
                 </div>
-                {categoryFilter && <span className="clear-all" onClick={() => setSearchParams({})}>Reset filters</span>}
+                <div className="products-list">
+                    {productItems}
+                </div>
+                {
+                    pages && <PageNavigation
+                        currentPage={pages.currentPage}
+                        totalPages={pages.total}
+                        setCurrentPage={setCurrentPage}
+                        offset={2} />
+                }
             </div>
-            <div className="products-list">
-                {productItems}
-            </div>
-            {
-                pages && <PageNavigation
-                    currentPage={pages.currentPage}
-                    totalPages={pages.total}
-                    setCurrentPage={setCurrentPage}
-                    offset={2} />
-            }
         </main >
     )
 }

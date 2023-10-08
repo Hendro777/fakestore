@@ -142,9 +142,10 @@ const PageButton = function (props) {
         width: 48px;
         color: ${props.active ? '#FFF' : '#2F2F2F'};
         background-color: ${props.active ? 'rgb(163, 118, 217)' : 'rgb(255,255,255)'};
-        padding: .5em 1em;
+
         box-shadow: 0px 6px 6px -3px rgba(140, 84, 208, 0.7);
         cursor: pointer;
+        text-align: center;
 
         transition: all .3s;
 

@@ -43,33 +43,34 @@ export default function Login() {
     const error = useActionData()
 
     return (
-        <div className="vh-container login">
-            <Form method="post" className="loginForm">
-                <h2 className="headline">Login</h2>
-                {loginMessage && <div className="message">{loginMessage}</div>}
-                {error && <div className="error">{error.message}</div>}
-                <div className="inputs">
-                    <label htmlFor="username">
-                        Username
-                        <input
-                            defaultValue={"atuny0"}
-                            type="text"
-                            name="username"
-                            placeholder="Username *" />
-                    </label>
-
-                    <label htmlFor="password">
-                        Password
-                        <input
-                            defaultValue={"9uQFF1Lh"}
-                            type="password"
-                            name="password"
-                            placeholder="Password *" />
-                    </label>
+        <div className="vh-container section--dark login">
+            <Form method="post" className="login-form">
+                <div className="login-form__content">
+                    <h2 className="login-form__headline">Login</h2>
+                    {loginMessage && <div className="login-form__message">{loginMessage}</div>}
+                    {error && <div className="login-form__error">{error.message}</div>}
+                    <div className="login-form__inputs">
+                        <label htmlFor="username">
+                            Username
+                            <input
+                                defaultValue={"atuny0"}
+                                type="text"
+                                name="username"
+                                placeholder="Username *" />
+                        </label>
+                        <label htmlFor="password">
+                            Password
+                            <input
+                                defaultValue={"9uQFF1Lh"}
+                                type="password"
+                                name="password"
+                                placeholder="Password *" />
+                        </label>
+                    </div>
+                    <button className="login-form__btn" type="submit">
+                        Log in
+                    </button>
                 </div>
-                <button type="submit">
-                    Log in
-                </button>
             </Form>
         </div>
     )

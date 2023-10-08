@@ -3,36 +3,35 @@ import UnfoldMoreIcon from "@mui/icons-material/UnfoldMore";
 import { useQuery } from "@tanstack/react-query";
 
 export default function CartProduct(props) {
-
   return (
-    <div className="cartProduct">
-      <div className="thumbnail-container">
-        <img src={props.item.product.thumbnail} className="thumbnail" />
+    <div className="cart-product">
+      <div className="cart-product__thumbnail-container">
+        <img src={props.item.product.thumbnail} className="cart-product__thumbnail" />
       </div>
-      <div className="info">
-        <h3 className="title">{props.item.product.title}</h3>
-        <p className="brand">{props.item.product.brand}</p>
-        <div className="pricing">
-          <span className="price">
+      <div className="cart-product__info">
+        <h3 className="cart-product__title">{props.item.product.title}</h3>
+        <p className="cart-product__brand">{props.item.product.brand}</p>
+        <div className="cart-product__pricing">
+          <span className="cart-product__price">
             {Number(
-              props.item.product.price * ((100 - props.item.product.discountPercentage) / 100)
+              props.item.product.price *
+                ((100 - props.item.product.discountPercentage) / 100)
             ).toFixed(0)}
             € per
           </span>
-          <span className="rrp">
-            RRP: <span className="value">{props.item.product.price}€</span>
+          <span className="cart-product__rrp">
+            RRP: <span className="cart-product__rrp-value">{props.item.product.price}€</span>
           </span>
         </div>
       </div>
-      <div className="orderDetails">
-        <div>
-          <div className="delete" onClick={props.deleteFromCart}>
+      <div className="cart-product__orderDetails">
+          <div className="cart-product__delete" onClick={props.deleteFromCart}>
             <DeleteIcon fontSize="inherit" />
           </div>
-          <div className="quantity-container">
-            <label htmlFor="quantity-select">{props.item.quantity}</label>
+          <div className="cart-product__quantity-container">
+            <label htmlFor="cart-product__quantity-select">{props.item.quantity}</label>
             <select
-              className="quantity-select"
+              className="cart-product__quantity-select"
               value={props.item.quantity}
               onChange={(e) => props.handleChange(e.target.value)}
             >
@@ -47,16 +46,15 @@ export default function CartProduct(props) {
               <option value="9">9</option>
               <option value="10">10</option>
             </select>
-            <UnfoldMoreIcon className="dropdown-icon" />
+            <UnfoldMoreIcon className="cart-product__dropdown-icon" />
           </div>
-        </div>
-
-        <span className="total">
-          {Number(
-            props.item.product.price * ((100 - props.item.product.discountPercentage) / 100)
-          ).toFixed(0) * props.item.quantity}
-          €
-        </span>
+          <span className="cart-product__total">
+            {Number(
+              props.item.product.price *
+                ((100 - props.item.product.discountPercentage) / 100)
+            ).toFixed(0) * props.item.quantity}
+            €
+          </span>
       </div>
     </div>
   );

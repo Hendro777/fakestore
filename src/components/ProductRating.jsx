@@ -6,7 +6,7 @@ const ProductRating = function (props) {
     return (
         <div className="product-rating">
             {getStarIcons(props.rating)}
-            <span className="rating-value">{props.rating.toFixed(1)}</span>
+            <span className="product-rating__value">{props.rating.toFixed(1)}</span>
         </div>
     )
 }

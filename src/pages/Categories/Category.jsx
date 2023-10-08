@@ -5,8 +5,8 @@ import { Link } from "react-router-dom"
 const Category = function (props) {
     return (
         <Link to={`/products?category=${props.title}`} className="category">
-            <div className="thumbnail-container">
-                <img className='thumbnail' src={props.thumbnail} />
+            <div className="category__thumbnail">
+                <img src={props.thumbnail} />
             </div>
             <div className="info">
                 <h3>{firstLetterToUpperCase(props.title)}</h3>
