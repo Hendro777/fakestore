@@ -31,7 +31,7 @@ const Header = function () {
           <h1 className="logo__title">fakestore</h1>
         </NavLink>
         <nav className="nav nav--secondary col">
-          <Link className="className=btn-link btn-cart" to="/cart">
+          <Link className="btn-link btn-cart" to="/cart">
             {cartItems.size > 0 && (
               <span className="badge">{cartItems.size}</span>
             )}
@@ -39,7 +39,7 @@ const Header = function () {
           </Link>
           {isAuthenticated() ? (
             <Link
-              className="className=btn-link authenticated btn-account"
+              className="btn-link authenticated btn-account"
               to="/account"
             >
               <img src={user.image} />

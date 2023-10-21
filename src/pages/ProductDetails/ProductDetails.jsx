@@ -66,10 +66,10 @@ function ProductDetails() {
                         </div>
                         <section className="info">
                             <div className="info__image">
+                                <img className="image-display" src={displayedImage}></img>
                                 <div className="thumbnails">
                                     {getProductImages()}
                                 </div>
-                                <img className="image-display" src={displayedImage}></img>
                             </div>
                             <div className="info__order">
                                 <span className="price">{
