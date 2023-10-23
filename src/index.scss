@@ -162,13 +162,26 @@ a.textlink {
 }
 
 .header {
+  position: relative;
   background-color: $primary-color;
   color: $secondary-color;
+  z-index: 999;
 
   .header__container {
     margin: 0 auto;
     align-items: center;
     height: 5rem;
+  }
+
+  .burger-menu {
+    // Burger Menu
+    display: none;
+
+    @media (max-width: 992px) {
+      display: block;
+      color: $primary-contrast;
+      cursor: pointer;
+    }
   }
 
   nav {
@@ -177,38 +190,64 @@ a.textlink {
     gap: 1.25em;
   }
 
-  .burger-menu {
-    // Burger Menu
-    color: $primary-contrast;
-    cursor: pointer;
-    display: none;
-
-    @media (max-width: 992px) {
-      display: block;
-    }
-  }
-
   .nav--primary {
+    .nav__container {
+      display: flex;
+      gap: 1.25em;
+      align-items: center;
+    }
+
+    @media screen and (max-width: 992px) {
+      position: absolute;
+      top: 100%;
+      background-color: $primary-color;
+      left: 0;
+      right: 0;
+      padding-block: 1.75em;
+      transform: scale(1, 0);
+      transform-origin: top;
+      transition: transform 350ms ease-in-out;
+
+      .nav__container {
+        width: 90%;
+        margin: auto;
+        flex-direction: column;
+        gap: 1.75em;
+      }
+    }
+
     .nav__link {
       color: #fff;
       text-align: center;
       font-family: $karla;
-      font-size: 1rem;
+      font-size: 1.1rem;
       font-style: normal;
       font-weight: 700;
       line-height: normal;
       text-decoration: none;
       width: fit-content;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
 
       &:hover
-
-                /*, &.active */ {
+             /*, &.active */ {
+        color: $secondary-color-extra-light;
         text-decoration: underline;
       }
-    }
 
-    @media (max-width: 992px) {
-      display: none;
+      &--account {
+        display: none;
+      }
+
+      @media screen and (max-width: 992px) {
+        opacity: 0;
+        transition: opacity 150ms ease-in-out;
+        font-size: 1.2em;
+
+        &--account {
+          display: inline-block;
+        }
+      }
     }
   }
 
@@ -263,6 +302,19 @@ a.textlink {
         width: 100%;
         object-fit: contain;
       }
+    }
+  }
+
+  .nav-toggle {
+    display: none;
+  }
+
+  .nav-toggle:checked ~ .nav--primary {
+    transform: scale(1, 1);
+
+    .nav__link {
+      opacity: 1;
+      transition: opacity 250ms ease-in-out 250ms;
     }
   }
 

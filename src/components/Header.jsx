@@ -13,19 +13,28 @@ const Header = function () {
   return (
     <header className="header">
       <div className="container header__container row">
-        <div className="burger-menu col">
+        <label className="burger-menu nav-toggle-label col" for="nav-toggle">
           <MenuIcon fontSize="large" />
-        </div>
+        </label>
+        <input type="checkbox" id="nav-toggle" className="nav-toggle" />
         <nav className="nav nav--primary col">
-          <NavLink className="nav__link" to="categories">
-            All Categories
-          </NavLink>
-          <NavLink className="nav__link" to="deals">
-            Deals
-          </NavLink>
-          <NavLink className="nav__link" to="about">
-            About
-          </NavLink>
+          <div className="nav__container">
+            <NavLink className="nav__link" to="">
+              Home
+            </NavLink>
+            <NavLink className="nav__link nav__link--account" to="account">
+              Account
+            </NavLink>
+            <NavLink className="nav__link" to="categories">
+              All Categories
+            </NavLink>
+            <NavLink className="nav__link" to="products">
+              Products
+            </NavLink>
+            <NavLink className="nav__link" to="about">
+              About
+            </NavLink>
+          </div>
         </nav>
         <NavLink className="logo col" to="">
           <h1 className="logo__title">fakestore</h1>
@@ -38,10 +47,7 @@ const Header = function () {
             <ShoppingBagOutlined fontSize="large" />
           </Link>
           {isAuthenticated() ? (
-            <Link
-              className="btn-link authenticated btn-account"
-              to="/account"
-            >
+            <Link className="btn-link authenticated btn-account" to="/account">
               <img src={user.image} />
             </Link>
           ) : (
